@@ -1,0 +1,43 @@
+/**
+ *  Exports colors variables for stylesheets as scss variables..
+ */
+
+// main schema
+$light-shades: #F7FCFF; // Use this color as the background for your dark-on-light designs, or the text color of an inverted design.
+$light-accent: #6DC15F; // Accent colors can be used to bring attention to design elements by contrasting with the rest of the palette.
+$main: #0861A5;         // This color should be eye-catching but not harsh. It can be liberally applied to your layout as its main identity.
+$dark-accent: #718580;  // Another accent color to consider. Not all colors have to be used - sometimes a simple color scheme works best.
+$dark-shades: #233638;  // Use as the text color for dark-on-light designs, or as the background for inverted designs.
+
+// color semantics
+$primary: #1662ab;
+$info: #233638;
+$success: #3c986b;
+$warning: #b98833;
+$danger: #f44336;
+
+// monochromatic
+$mono1: #0861A5;
+$mono2: #6A7B89;
+$mono3: #B2BBC1;
+$mono4: #203F56;
+$mono5: #2A2C2D;
+
+/* scss-lint ignore:start */
+
+:export { // scss-lint:disable
+  lightShades: $light-shades; // scss-lint:disable
+  lightAccent: $light-accent;
+  main: $main;
+  darkAccent: $dark-accent;
+  darkShades: $dark-shades;
+  primary: $primary;
+  info: $info;
+  warning: $warning;
+  danger: $danger;
+  mono1: $mono1;
+  mono2: $mono2;
+  mono3: $mono3;
+  mono4: $mono4;
+  mono5: $mono5;
+} /* jshint ignore:end */

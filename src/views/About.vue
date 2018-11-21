@@ -1,5 +1,16 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <overviewer-chart></overviewer-chart>
   </div>
 </template>
+<script>
+import Chart from '@/components/chart/chart.vue';
+export default {
+  components: {
+    'overviewer-chart': Chart
+  }
+}
+</script>
+<style lang="scss" scoped>
+
+</style>
