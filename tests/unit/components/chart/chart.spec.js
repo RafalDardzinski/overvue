@@ -1,8 +1,13 @@
+import chai from 'chai';
+import chaiSubset from 'chai-subset';
 import { expect } from 'chai';
 import Chart from '@/components/chart/chart';
 import ChartJS from 'chart.js';
+import config from '@/components/chart/config';
 
-const mockChartCreateParams = (type = 'bar', data = {}, options = {}) => {
+chai.use(chaiSubset);
+
+const mockChartCreateParams = (type = 'bar', data = {}, options = {title: {display: true, text: 'sample title'}}) => {
   const canvasRef = document.createElement('canvas');
   canvasRef.getContext = () => {return {};};
   return {
@@ -35,9 +40,29 @@ describe('Chart (@/components/chart/chart.js)', () => {
     it('contains instance of Chart.js object', () => {
       expect(chart.ref).to.be.an.instanceof(ChartJS);
     });
+    
+    it('contains type property that equals type argument provided to the constructor', () => {
+      const {canvasRef, data, options} = mockChartCreateParams();
+      const chart = new Chart(canvasRef, 'line', data, options);
+      expect(chart.ref.config.type).to.equal('line');
+    });
+
+    it('contains subset of options provided as argument for constructor in the options property', () => {
+      const {options} = mockChartCreateParams();
+      expect(chart.ref.options).to.containSubset(options);
+    });
 
     it('cannot be modified', () => {
       expect(() => chart.ref = 'I am modified').to.throw();
+    });
+
+
+    describe('when options argument was not provided to the constructor', () => {
+      it('Chart#ref.options contains default options set defined in config.js', () => {
+        const {canvasRef, type, data, options} = mockChartCreateParams();
+        const chart = new Chart(canvasRef, type, data);
+        expect(chart.ref.options).to.containSubset(config.options[type] || config.options.default);
+      });
     });
   });
 

@@ -1,8 +1,10 @@
 import ChartJS from 'chart.js';
+import config from './config';
 
 const _ref = new WeakMap(); // ref private method
 class Chart {
-  constructor(canvasRef, type, data, options) {
+  constructor(canvasRef, type, data, opts) {
+    const options = opts || config.options[type] || config.options.default;
     const ctx = canvasRef.getContext('2d');
     _ref.set(this, new ChartJS(ctx, {
       type,
