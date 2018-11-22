@@ -42,6 +42,17 @@ class Chart {
   static createDataset(data = [], datasetConfig = {}) {
     return Object.assign({}, datasetConfig, {data});
   }
+
+  static colorifyDatasets(datasets = [], colors = config.datasets.backgroundColors) {
+    let colorsIterator = 0;
+    datasets.forEach(dataset => {
+      // reset iterator when reached colors maximum
+      if (colorsIterator === colors.length)
+        colorsIterator = 0;
+      dataset.backgroundColor = colors[colorsIterator++];
+    });
+    return datasets;
+  }
 }
 
 export default Chart;

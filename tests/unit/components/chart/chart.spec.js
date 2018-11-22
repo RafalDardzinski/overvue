@@ -149,4 +149,52 @@ describe('Chart (@/components/chart/chart.js)', () => {
       });
     });
   });
+
+  describe('Chart.colorifyDatasets()', () => {
+    let datasets, colors;
+    beforeEach(() => {
+      datasets = [
+        {label: 'dataset1', data: [1, 2, 3]},
+        {label: 'dataset2', data: [4, 5, 6]},
+        {label: 'dataset3', data: [7, 8, 9]},
+        {label: 'dataset4', data: [10, 11, 12]},
+      ];
+      colors = ['red', 'yellow', 'green', 'blue'];
+    });
+    it('sets backgroundColor property with coresponding value from colors argument to each dataset', () => {
+      const colorifiedDatasets = Chart.colorifyDatasets(datasets, colors);
+      colorifiedDatasets.forEach((dataset, index) => {
+        expect(dataset)
+          .to.have.property('backgroundColor')
+          .that.equal(colors[index]);
+      });
+    });
+
+    describe('when colors argument is not provided', () => {
+      it('applies backgroundColor values from config file', () => {
+        const colorifiedDatasets = Chart.colorifyDatasets(datasets);
+        colorifiedDatasets.forEach((dataset, index) => {
+          expect(dataset)
+            .to.have.property('backgroundColor')
+            .that.equals(config.datasets.backgroundColors[index]);
+        });
+      });
+    });
+
+    describe('when datasets.length > colors.length', () => {
+      it('applies backgroundColor property starting from the beginning of the colors array', () => {
+        colors.pop();
+        colors.pop();
+        const colorifiedDatasets = Chart.colorifyDatasets(datasets, colors);
+        let colorsIterator = 0;
+        colorifiedDatasets.forEach(dataset => {
+          if (colorsIterator === colors.length)
+            colorsIterator = 0;
+          expect(dataset)
+            .to.have.property('backgroundColor')
+            .that.equals(colors[colorsIterator++]);
+        });
+      });
+    });
+  });
 });
