@@ -58,7 +58,7 @@ describe('Chart (@/components/chart/chart.js)', () => {
 
 
     describe('when options argument was not provided to the constructor', () => {
-      it('Chart#ref.options contains default options set defined in config.js', () => {
+      it('Chart#ref.options contains default options defined in config.js', () => {
         const {canvasRef, type, data, options} = mockChartCreateParams();
         const chart = new Chart(canvasRef, type, data);
         expect(chart.ref.options).to.containSubset(config.options[type] || config.options.default);
@@ -91,6 +91,15 @@ describe('Chart (@/components/chart/chart.js)', () => {
     it('modifies chart.ref.data.labels', () => {
       chart.setLabels(mockLabels);
       expect(chart.ref.data.labels).to.equal(mockLabels);
+    });
+  });
+
+  describe('Chart#update()', () => {
+    let chart;
+    beforeEach(() => chart = createValidChartInstance());
+
+    it('returns chart instance', () => {
+      expect(chart.setLabels(mockLabels)).to.be.an.instanceOf(Chart);
     });
   });
 

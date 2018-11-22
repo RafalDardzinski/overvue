@@ -4,7 +4,7 @@ import config from './config';
 const _ref = new WeakMap(); // ref private method
 class Chart {
   constructor(canvasRef, type, data, opts) {
-    const options = opts || config.options[type] || config.options.default;
+    const options = opts || config.options.default;
     const ctx = canvasRef.getContext('2d');
     _ref.set(this, new ChartJS(ctx, {
       type,
@@ -24,6 +24,11 @@ class Chart {
 
   setLabels(labels = []) {
     this.ref.data.labels = labels;
+    return this;
+  }
+
+  update() {
+    this.ref.update();
     return this;
   }
 
