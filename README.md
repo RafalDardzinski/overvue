@@ -1,4 +1,4 @@
-# vue-app-template
+# overvue
 
 ## Project setup
 ```
