@@ -18,6 +18,7 @@ export default {
     }
   },
   errorCaptured (error, vm, info) {
+    console.log('wow an error')
     this.interceptError(error);
   }
 }
