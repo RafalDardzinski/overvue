@@ -1,5 +1,6 @@
 # overvue
 Overvue is a collection of Vue.js components that serve as a template for building dashboard applications.
+Work is currently in progress.
 
 ## Project setup
 ```
