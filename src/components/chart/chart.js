@@ -58,6 +58,8 @@ class Chart {
     });
     return datasets;
   }
+
+  // @todo: test setDatasets and setLabels
 }
 
 export default Chart;
