@@ -1,11 +1,14 @@
 import ChartJS from 'chart.js';
 import config from './config';
 
+// {} fallback to mock context so Chart.js will not throw error on rendering using vue-test-utils
+const getContext = canvas => canvas.getContext('2d') || {};
+
 const _ref = new WeakMap(); // ref private method
 class Chart {
   constructor(canvasRef, type, data, opts) {
     const options = opts || config.options.default;
-    const ctx = canvasRef.getContext('2d');
+    const ctx = getContext(canvasRef);
     _ref.set(this, new ChartJS(ctx, {
       type,
       data,
