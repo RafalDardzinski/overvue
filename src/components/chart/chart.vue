@@ -1,7 +1,7 @@
 <template>
   <div class="overvue-chart">
     <overvue-loading-indicator v-if="!loaded"></overvue-loading-indicator>
-    <canvas class="overvue-chart-canvas" 
+    <canvas class="overvue-chart-canvas"
     v-show="ready"
     />
     <p>ready: {{ready}}</p>
@@ -11,13 +11,7 @@
 import LoadingIndicator from '@/components/loading-indicator';
 import OvervueErrorBoundary from '@/components/error-boundary.vue';
 import Chart from '@/components/chart/chart.js'
-import BarChart from './bar-chart';
-import LineChart from './line-chart';
-
-const charts = {
-  bar: BarChart,
-  line: LineChart
-};
+import ChartFactory from './chart-factory.js';
 
 export default {
   components: {
@@ -56,10 +50,9 @@ export default {
     }
   },
   methods: {
-    createChartInstance() {
+    createEmptyChartInstance() {
       const canvas = this.$el.querySelector('.overvue-chart-canvas');
-      const ChartClass = charts[this.chartType];
-      const chart = new ChartClass(canvas);
+      const chart = ChartFactory.createEmptyChartInstance(canvas, this.chartType);
       this.chart = chart;
       return chart;
     },
@@ -67,6 +60,7 @@ export default {
       this.chart.setDatasets(this.styledDatasets);
       this.chart.setLabels(this.labels);
       this.chart.update();
+      return this.chart;
     }
   },
   watch: {
@@ -76,7 +70,7 @@ export default {
     }
   },
   mounted() {
-    this.createChartInstance();
+    this.createEmptyChartInstance();
   }
 }
 </script>
