@@ -8,7 +8,7 @@ const charts = {
 
 class ChartFactory {
   static createEmptyChartInstance (canvasRef, type) {
-    return new charts[type](canvasRef);
+    return new charts[type](canvasRef, {});
   }
 }
 
