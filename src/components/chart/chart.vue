@@ -1,6 +1,6 @@
 <template>
   <div class="overvue-chart">
-    <overvue-loading-indicator v-if="!loaded"></overvue-loading-indicator>
+    <overvue-loading-indicator v-if="!ready"></overvue-loading-indicator>
     <canvas class="overvue-chart-canvas"
     v-show="ready"
     />
@@ -8,14 +8,14 @@
   </div>  
 </template>
 <script>
-import LoadingIndicator from '@/components/loading-indicator';
+import OvervueLoadingIndicator from '@/components/loading-indicator';
 import OvervueErrorBoundary from '@/components/error-boundary.vue';
 import Chart from '@/components/chart/chart.js'
 import ChartFactory from './chart-factory.js';
 
 export default {
   components: {
-    'overvue-loading-indicator': LoadingIndicator,
+    'overvue-loading-indicator': OvervueLoadingIndicator,
     'overvue-error-boundary': OvervueErrorBoundary
   },
   props: {
@@ -50,8 +50,11 @@ export default {
     }
   },
   methods: {
+    getChartCanvas() {
+      return this.$el.querySelector('.overvue-chart-canvas');
+    },
     createEmptyChartInstance() {
-      const canvas = this.$el.querySelector('.overvue-chart-canvas');
+      const canvas = this.getChartCanvas();
       const chart = ChartFactory.createEmptyChartInstance(canvas, this.chartType);
       this.chart = chart;
       return chart;

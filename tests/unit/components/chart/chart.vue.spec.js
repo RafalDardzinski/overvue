@@ -1,9 +1,14 @@
-import { expect } from 'chai';
-import { shallowMount, mount } from '@vue/test-utils';
+import chai from 'chai';
+import spies from 'chai-spies';
+chai.use(spies);
+import {expect} from 'chai';
+import {shallowMount, mount} from '@vue/test-utils';
 import Chart from '@/components/chart/chart.js';
 import OvervueChart from '@/components/chart/chart.vue';
+import ChartFactory from '@/components/chart/chart-factory';
 import LoadingIndicator from '@/components/loading-indicator.vue';
 import mockDatasets from './utils/mockDatasets';
+import mockLabels from './utils/mockLabels';
 
 // @todo: add the tests
 
@@ -17,77 +22,83 @@ const createOvervueChartWrapper = () => {
 
 describe('OvervueChart (@/components/chart/chart.vue)', () => {
   describe('computed properties:', () => {
-    let wrapper;
-    beforeEach(() => wrapper = createOvervueChartWrapper());
     describe('ready', () => {
-      beforeEach(() => {
-        // set props / data to true so computed.ready returns true
-        wrapper.setProps({loaded: true, datasets: [], labels: []});
-        wrapper.setData({chart: true});
-      });
+      let localThis;
+      beforeEach(() => localThis = {loaded: true, datasets: true, labels: true, chart: true});
 
       it('returns true when all of the following returns true: props.loaded, !!props.datasets, !!props.labels, !!data.chart', () => {
-        expect(wrapper.vm.ready).to.be.true;
+        expect(OvervueChart.computed.ready.call(localThis)).to.be.true;
       });
 
       it('returns false if props.loaded is false', () => {
-        wrapper.setProps({loaded: false});
-        expect(wrapper.vm.ready).to.be.false;
+        localThis.loaded = false;
+        expect(OvervueChart.computed.ready.call(localThis)).to.be.false;
       });
 
       it('returns false if props.datasets is false', () => {
-        wrapper.setProps({datasets: false});
-        expect(wrapper.vm.ready).to.be.false;
+        localThis.datasets = false;
+        expect(OvervueChart.computed.ready.call(localThis)).to.be.false;
       });
 
       it('returns false if props.labels is false', () => {
-        wrapper.setProps({labels: false});
-        expect(wrapper.vm.ready).to.be.false;
+        localThis.labels = false;
+        expect(OvervueChart.computed.ready.call(localThis)).to.be.false;
       });
 
       it('returns false if data.chart is false', () => {
-        wrapper.setData({chart: false});
-        expect(wrapper.vm.ready).to.be.false;
+        localThis.chart = false;
+        expect(OvervueChart.computed.ready.call(localThis)).to.be.false;
       });
     });
 
     describe('styledDatasets', () => {
+      let localThis;
+      beforeEach(() => localThis = {datasets: mockDatasets});
+
       it('returns colorified datasets', () => {
-        wrapper.setData({datasets: mockDatasets});
-        expect(wrapper.vm.styledDatasets).to.deep.equal(Chart.colorifyDatasets(mockDatasets));
+        expect(OvervueChart.computed.styledDatasets.call(localThis)).to.deep.equal(Chart.colorifyDatasets(mockDatasets));
       });
 
-      describe('when !!datasets is false', () => {
+      describe('when !!props.datasets is false', () => {
         it('returns an empty array', () => {
-          wrapper.setData({datasets: null});
-          expect(wrapper.vm.styledDatasets).to.be.an('array').with.lengthOf(0);
+          localThis.datasets = null;
+          expect(OvervueChart.computed.styledDatasets.call(localThis)).to.be.an('array').with.lengthOf(0);
         });
       });
     });
   });
 
   describe('methods:', () => {
-    describe('createChartInstance()', () => {
-      it('returns instance of Chart', () => {
-        
+    let wrapper;
+    beforeEach(() => wrapper = createOvervueChartWrapper());
+
+    describe('getChartCanvas()', () => {
+      it('returns canvas.overvue-chart-canvas', () => {
+        expect(wrapper.vm.getChartCanvas()).to.be.an.instanceOf(HTMLCanvasElement);
+        expect(wrapper.vm.getChartCanvas().className).to.equal('overvue-chart-canvas');
       });
-  
-      it('creates chart with type that matches props.chartType', () => {
-        // maybe use factory?
+    });
+
+    describe('createEmptyChartInstance()', () => {
+      it('returns instance of Chart', () => {
+        const {createEmptyChartInstance} = wrapper.vm;
+        expect(createEmptyChartInstance()).to.be.an.instanceOf(Chart);
       });
   
       it('assigns chart instance to data.chart', () => {
-        
+        wrapper.vm.createEmptyChartInstance();
+        const {chart} = wrapper.vm;
+        expect(chart).to.be.an.instanceOf(Chart);
       });
     });
   
     describe('updateChartInstance()', () => {
-      it('updates data.chart with datasets with colorified props.datasets', () => {
+      it('calls data.chart.setDatasets() with computed.styledDatasets as argument', () => {
         
       });
   
       it('updates data.chart labels with props.labels', () => {
-  
+        
       });
     });
   });
@@ -95,7 +106,7 @@ describe('OvervueChart (@/components/chart/chart.vue)', () => {
   describe('render logic:', () => {
     let wrapper;
     beforeEach(() => wrapper = createOvervueChartWrapper());
-    describe('when loaded property is false', () => {
+    describe('when ready property is false', () => {
       beforeEach(() => wrapper.setProps({loaded: false}));
       it('renders LoadingIndicator', () => {
         expect(wrapper.contains(LoadingIndicator)).to.be.true;
@@ -109,20 +120,17 @@ describe('OvervueChart (@/components/chart/chart.vue)', () => {
     describe('when ready property is true', () => {
       let wrapper;
       beforeEach(() => {
-        wrapper = mount(OvervueChart, {
-          propsData: {
-            chartType: 'bar',
-            loaded: true
-          }
-        });
+        wrapper = createOvervueChartWrapper();
+        wrapper.setProps({loaded: true, datasets: true, labels: true});
+        wrapper.setData({chart: true});
       });
 
       it('sets canvas.overvue-chart-canvas to be visible', () => {
-        // expect(wrapper.find('canvas.overvue-chart-canvas').isVisible()).to.be.true;
+        expect(wrapper.find('canvas.overvue-chart-canvas').isVisible()).to.be.true;
       });
   
       it('removes LoadingIndicator from DOM', () => {
-        
+        expect(wrapper.contains(LoadingIndicator)).to.be.false;
       });
     });
   });
