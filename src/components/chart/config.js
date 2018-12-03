@@ -1,4 +1,11 @@
 import colors from '@/config/colors.scss';
+import font from '@/config/font.scss';
+import Chart from 'chart.js';
+
+Chart.defaults.global.defaultFontColor = colors.darkShades;
+Chart.defaults.global.defaultFontFamily = font.fontFamily;
+Chart.defaults.global.defaultFontSize = 16;
+Chart.defaults.global.tooltips.backgroundColor = colors.darkShades;
 
 const config = {
   // general settings applicable to all charts
@@ -21,7 +28,7 @@ const config = {
       },
       tooltips: {
         mode: 'index',
-        intersect: false
+        intersect: false,
       }
     }
   },

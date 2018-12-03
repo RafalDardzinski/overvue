@@ -1,0 +1,17 @@
+/**
+ *  Exports font-related variables for stylesheets as scss variables.
+ */
+
+$font-family-base: 'Avant Garde SAP';
+$font-size-base: 16;
+
+$font-family: $font-family-base, -apple-system, BlinkMacSystemFont,
+  “Segoe UI”, “Roboto”, “Oxygen”, “Ubuntu”, “Cantarell”,
+  “Fira Sans”, “Droid Sans”, “Helvetica Neue”,
+  sans-serif;
+
+
+:export {
+  fontFamily: $font-family;
+  fontSize: $font-size-base;
+}
