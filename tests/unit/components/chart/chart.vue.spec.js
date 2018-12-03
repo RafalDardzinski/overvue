@@ -2,15 +2,11 @@ import chai from 'chai';
 import spies from 'chai-spies';
 chai.use(spies);
 import {expect} from 'chai';
-import {shallowMount, mount} from '@vue/test-utils';
+import {shallowMount} from '@vue/test-utils';
 import Chart from '@/components/chart/chart.js';
 import OvervueChart from '@/components/chart/chart.vue';
-import ChartFactory from '@/components/chart/chart-factory';
 import LoadingIndicator from '@/components/loading-indicator.vue';
 import mockDatasets from './utils/mockDatasets';
-import mockLabels from './utils/mockLabels';
-
-// @todo: add the tests
 
 const createOvervueChartWrapper = () => {
   return shallowMount(OvervueChart, {
@@ -93,12 +89,30 @@ describe('OvervueChart (@/components/chart/chart.vue)', () => {
     });
   
     describe('updateChartInstance()', () => {
+      // mock update function which causes problems in test environment
+      beforeEach(() => {
+        wrapper.vm.chart.update = () => true;
+      });
       it('calls data.chart.setDatasets() with computed.styledDatasets as argument', () => {
-        
+        const spy = chai.spy.on(wrapper.vm.chart, 'setDatasets');
+        wrapper.vm.updateChartInstance.call(wrapper.vm);
+        expect(spy).to.have.been.called().with(wrapper.vm.styledDatasets);
       });
   
-      it('updates data.chart labels with props.labels', () => {
-        
+      it('calls data.chart.setLabels() with props.labels as argument', () => {
+        const spy = chai.spy.on(wrapper.vm.chart, 'setLabels');
+        wrapper.vm.updateChartInstance.call(wrapper.vm);
+        expect(spy).to.have.been.called().with(wrapper.vm.labels);
+      });
+
+      it('calls data.chart.update()', () => {
+        const spy = chai.spy.on(wrapper.vm.chart, 'update');
+        wrapper.vm.updateChartInstance.call(wrapper.vm);
+        expect(spy).to.have.been.called();
+      });
+
+      it('returns data.chart', () => {
+        expect(wrapper.vm.updateChartInstance()).to.equal(wrapper.vm.chart);
       });
     });
   });
