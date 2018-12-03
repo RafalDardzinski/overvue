@@ -5,14 +5,20 @@
       chart-type="bar"
       :loaded="dataLoaded"
       :datasets="[{label: 'First', data: [2, 5, 8]},
-      {label: 'Second', data: [10, 11, 3]}]"
+      {label: 'Second', data: [10, 11, 3]},
+      {label: 'Third', data: [4, 5, 1]},
+      {label: 'Fourth', data: [8, 15, 10]},
+      {label: 'Fifth', data: [13, 11, 9]}]"
       :labels="['One', 'Two', 'Three']"
       />
       <overvue-chart 
       chart-type="line"
       :loaded="dataLoaded"
-      :datasets="[{label: 'First', data: [0, 1, 2]},
-      {label: 'Second', data: [1, 8, 5]}]"
+      :datasets="[{label: 'First', data: [2, 5, 8]},
+      {label: 'Second', data: [10, 11, 3]},
+      {label: 'Third', data: [4, 5, 1]},
+      {label: 'Fourth', data: [8, 15, 10]},
+      {label: 'Fifth', data: [13, 11, 9]}]"
       :labels="['One', 'Two', 'Three']"
       />
     </overvue-error-boundary>
