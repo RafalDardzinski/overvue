@@ -27,11 +27,11 @@ const config = {
   },
   datasets: {
     backgroundColors: [
-      colors.mono1,
-      colors.mono2,
-      colors.mono3,
-      colors.mono4,
-      colors.mono5
+      colors.chartMono1,
+      colors.chartMono2,
+      colors.chartMono3,
+      colors.chartMono4,
+      colors.chartMono5
     ]
   }
 
