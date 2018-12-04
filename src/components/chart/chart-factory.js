@@ -10,6 +10,9 @@ class ChartFactory {
   static createEmptyChartInstance (canvasRef, type) {
     return new charts[type](canvasRef, {});
   }
+  static getChartClass (type) {
+    return charts[type];
+  } 
 }
 
 export default ChartFactory;
