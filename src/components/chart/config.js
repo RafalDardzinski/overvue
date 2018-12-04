@@ -14,6 +14,9 @@ const config = {
       title: {
         display: false
       },
+      legend: {
+        display: false
+      },
       scales: {
         yAxes: [{
           ticks: {
