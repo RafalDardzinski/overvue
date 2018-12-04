@@ -51,7 +51,7 @@ class Chart {
     return Object.assign({}, datasetConfig, {data});
   }
 
-  static colorifyDatasets(datasets = [], colors = config.datasets.backgroundColors) {
+  static styleDatasets(datasets = [], colors = config.datasets.backgroundColors) {
     let colorsIterator = 0;
     datasets.forEach(dataset => {
       // reset iterator when reached colors maximum

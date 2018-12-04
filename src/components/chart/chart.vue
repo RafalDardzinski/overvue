@@ -45,7 +45,7 @@ export default {
         && !!this.chart     //chart must be built
     },
     styledDatasets() {
-      if (this.datasets) return Chart.colorifyDatasets(this.datasets);
+      if (this.datasets) return ChartFactory.getChartClass(this.chartType).styleDatasets(this.datasets);
       return [];
     }
   },

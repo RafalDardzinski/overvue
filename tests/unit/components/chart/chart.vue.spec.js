@@ -51,8 +51,9 @@ describe('OvervueChart (@/components/chart/chart.vue)', () => {
       let localThis;
       beforeEach(() => localThis = {datasets: mockDatasets});
 
-      it('returns colorified datasets', () => {
-        expect(OvervueChart.computed.styledDatasets.call(localThis)).to.deep.equal(Chart.colorifyDatasets(mockDatasets));
+      it('returns styled datasets', () => {
+        localThis.chartType = 'bar';
+        expect(OvervueChart.computed.styledDatasets.call(localThis)).to.deep.equal(Chart.styleDatasets(mockDatasets));
       });
 
       describe('when !!props.datasets is false', () => {

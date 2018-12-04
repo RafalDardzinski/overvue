@@ -159,7 +159,7 @@ describe('Chart (@/components/chart/chart.js)', () => {
     });
   });
 
-  describe('Chart.colorifyDatasets()', () => {
+  describe('Chart.styleDatasets()', () => {
     let datasets, colors;
     beforeEach(() => {
       datasets = [
@@ -171,7 +171,7 @@ describe('Chart (@/components/chart/chart.js)', () => {
       colors = ['red', 'yellow', 'green', 'blue'];
     });
     it('sets backgroundColor property with coresponding value from colors argument to each dataset', () => {
-      const colorifiedDatasets = Chart.colorifyDatasets(datasets, colors);
+      const colorifiedDatasets = Chart.styleDatasets(datasets, colors);
       colorifiedDatasets.forEach((dataset, index) => {
         expect(dataset)
           .to.have.property('backgroundColor')
@@ -181,7 +181,7 @@ describe('Chart (@/components/chart/chart.js)', () => {
 
     describe('when colors argument is not provided', () => {
       it('applies backgroundColor values from config file', () => {
-        const colorifiedDatasets = Chart.colorifyDatasets(datasets);
+        const colorifiedDatasets = Chart.styleDatasets(datasets);
         colorifiedDatasets.forEach((dataset, index) => {
           expect(dataset)
             .to.have.property('backgroundColor')
@@ -194,7 +194,7 @@ describe('Chart (@/components/chart/chart.js)', () => {
       it('applies backgroundColor property starting from the beginning of the colors array', () => {
         colors.pop();
         colors.pop();
-        const colorifiedDatasets = Chart.colorifyDatasets(datasets, colors);
+        const colorifiedDatasets = Chart.styleDatasets(datasets, colors);
         let colorsIterator = 0;
         colorifiedDatasets.forEach(dataset => {
           if (colorsIterator === colors.length)
