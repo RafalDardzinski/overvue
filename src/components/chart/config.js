@@ -33,18 +33,69 @@ const config = {
         mode: 'index',
         intersect: false,
       }
+    },
+    line: {
+      title: {
+        display: false
+      },
+      legend: {
+        display: false
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            min: 0
+          }
+        }],
+        xAxes: [{
+          ticks: {
+            autoSkip: false
+          }
+        }]
+      },
+      tooltips: {
+        // displayColors: false,
+        mode: 'index',
+        intersect: false,
+      }
     }
   },
   datasets: {
-    backgroundColors: [
-      colors.chartMono1,
-      colors.chartMono2,
-      colors.chartMono3,
-      colors.chartMono4,
-      colors.chartMono5
-    ]
+    default: {
+      backgroundColors: [
+        colors.chartMono1,
+        colors.chartMono2,
+        colors.chartMono3,
+        colors.chartMono4,
+        colors.chartMono5
+      ],
+      borderColors: [
+        colors.chartMono1,
+        colors.chartMono2,
+        colors.chartMono3,
+        colors.chartMono4,
+        colors.chartMono5
+      ],
+      borderWidth: 1
+    },
+    line: {
+      backgroundColors: [
+        colors.primary,
+        colors.info,
+        colors.success,
+        colors.lightAccent,
+        colors.warning
+      ],
+      borderColors: [
+        colors.primary,
+        colors.info,
+        colors.success,
+        colors.lightAccent,
+        colors.warning
+      ],
+      borderWidth: 3
+    }
   }
-
 };
 
 export default config;
