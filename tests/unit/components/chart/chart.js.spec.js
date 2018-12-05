@@ -1,12 +1,17 @@
 import chai from 'chai';
+import spies from 'chai-spies';
 import chaiSubset from 'chai-subset';
 import { expect } from 'chai';
-import Chart from '@/components/chart/chart';
+import utils from './utils';
+
 import ChartJS from 'chart.js';
+import Chart from '@/components/chart/chart';
 import config from '@/components/chart/config';
 
 chai.use(chaiSubset);
+chai.use(spies);
 
+const { mockDatasets, mockLabels, mockDatasetsConfig } = utils;
 const mockChartCreateParams = (type = 'bar', data = {}, options = {title: {display: true, text: 'sample title'}}) => {
   const canvasRef = document.createElement('canvas');
   canvasRef.getContext = () => {return {};};
@@ -23,12 +28,8 @@ const createValidChartInstance = () => {
   return new Chart(canvasRef, type, data, options);
 };
 
-const mockDatasets = [
-  {label: 'dataset1', data: [1, 2, 3]},
-  {label: 'dataset2', data: [4, 5, 6]}
-];
-
-const mockLabels = ['Label1', 'Label2'];
+const mockedDatasets = mockDatasets();
+const mockedLabels = mockLabels();
 
 console.error = () => ''; // disable chart.js error logging due to lack of jsom canvas support
 
@@ -75,8 +76,8 @@ describe('Chart (@/components/chart/chart.js)', () => {
     });
 
     it('modifies chart.ref.data.datasets', () => {
-      chart.setDatasets(mockDatasets);
-      expect(chart.ref.data.datasets).to.equal(mockDatasets);
+      chart.setDatasets(mockedDatasets);
+      expect(chart.ref.data.datasets).to.equal(mockedDatasets);
     });
   });
 
@@ -85,12 +86,12 @@ describe('Chart (@/components/chart/chart.js)', () => {
     beforeEach(() => chart = createValidChartInstance());
 
     it('returns chart instance', () => {
-      expect(chart.setLabels(mockLabels)).to.be.an.instanceOf(Chart);
+      expect(chart.setLabels(mockedLabels)).to.be.an.instanceOf(Chart);
     });
 
     it('modifies chart.ref.data.labels', () => {
-      chart.setLabels(mockLabels);
-      expect(chart.ref.data.labels).to.equal(mockLabels);
+      chart.setLabels(mockedLabels);
+      expect(chart.ref.data.labels).to.equal(mockedLabels);
     });
   });
 
@@ -99,7 +100,7 @@ describe('Chart (@/components/chart/chart.js)', () => {
     beforeEach(() => chart = createValidChartInstance());
 
     it('returns chart instance', () => {
-      expect(chart.setLabels(mockLabels)).to.be.an.instanceOf(Chart);
+      expect(chart.setLabels(mockedLabels)).to.be.an.instanceOf(Chart);
     });
   });
 
@@ -142,7 +143,7 @@ describe('Chart (@/components/chart/chart.js)', () => {
 
   describe('Chart.createDataset()', () => {
     it('returns an object with data property on the root level', () => {
-      const {data} = mockDatasets[0];
+      const {data} = mockedDatasets[0];
       expect(Chart.createDataset.bind(this, data, {})())
         .to.be.an('Object')
         .that.have.property('data')
@@ -151,7 +152,7 @@ describe('Chart (@/components/chart/chart.js)', () => {
 
     describe('when datasetConfig contains data property', () => {
       it('overrides datasetConfig.data with data argument', () => {
-        const {data} = mockDatasets[0];
+        const {data} = mockedDatasets[0];
         const datasetConfig = {data: 'incorrect data property'};
         expect(Chart.createDataset.bind(this, data, datasetConfig)())
           .to.include({data});
@@ -159,50 +160,29 @@ describe('Chart (@/components/chart/chart.js)', () => {
     });
   });
 
-  describe('Chart.styleDatasets()', () => {
-    let datasets, colors;
-    beforeEach(() => {
-      datasets = [
-        {label: 'dataset1', data: [1, 2, 3]},
-        {label: 'dataset2', data: [4, 5, 6]},
-        {label: 'dataset3', data: [7, 8, 9]},
-        {label: 'dataset4', data: [10, 11, 12]},
-      ];
-      colors = ['red', 'yellow', 'green', 'blue'];
+  describe('Chart.styleDatasets(datasets, configuration)', () => {
+    it(`returns an array`, () => {
+      expect(Chart.styleDatasets(mockedDatasets)).to.be.an('array');
     });
-    it('sets backgroundColor property with coresponding value from colors argument to each dataset', () => {
-      const colorifiedDatasets = Chart.styleDatasets(datasets, colors);
-      colorifiedDatasets.forEach((dataset, index) => {
-        expect(dataset)
-          .to.have.property('backgroundColor')
-          .that.equal(colors[index]);
+
+    it(`returns datasets, each with backgroundColor property`, () => {
+      const styledDatasets = Chart.styleDatasets(mockedDatasets);
+      styledDatasets.forEach(element => {
+        expect(element).to.have.property('backgroundColor');
       });
     });
 
-    describe('when colors argument is not provided', () => {
-      it('applies backgroundColor values from config file', () => {
-        const colorifiedDatasets = Chart.styleDatasets(datasets);
-        colorifiedDatasets.forEach((dataset, index) => {
-          expect(dataset)
-            .to.have.property('backgroundColor')
-            .that.equals(config.datasets.backgroundColors[index]);
-        });
+    it(`returns datasets, each with borderColor property`, () => {
+      const styledDatasets = Chart.styleDatasets(mockedDatasets);
+      styledDatasets.forEach(element => {
+        expect(element).to.have.property('borderColor');
       });
     });
 
-    describe('when datasets.length > colors.length', () => {
-      it('applies backgroundColor property starting from the beginning of the colors array', () => {
-        colors.pop();
-        colors.pop();
-        const colorifiedDatasets = Chart.styleDatasets(datasets, colors);
-        let colorsIterator = 0;
-        colorifiedDatasets.forEach(dataset => {
-          if (colorsIterator === colors.length)
-            colorsIterator = 0;
-          expect(dataset)
-            .to.have.property('backgroundColor')
-            .that.equals(colors[colorsIterator++]);
-        });
+    it(`returns datasets, each with borderWidth property`, () => {
+      const styledDatasets = Chart.styleDatasets(mockedDatasets);
+      styledDatasets.forEach(element => {
+        expect(element).to.have.property('borderWidth');
       });
     });
   });

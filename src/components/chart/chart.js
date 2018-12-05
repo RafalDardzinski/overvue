@@ -1,5 +1,6 @@
 import ChartJS from 'chart.js';
 import config from './config';
+import applyPropValuesToSetItems from './apply-prop-values-to-set-items';
 
 // {} fallback to mock context so Chart.js will not throw error on rendering using vue-test-utils
 const getContext = canvas => canvas.getContext('2d') || {};
@@ -51,18 +52,14 @@ class Chart {
     return Object.assign({}, datasetConfig, {data});
   }
 
-  static styleDatasets(datasets = [], colors = config.datasets.backgroundColors) {
-    let colorsIterator = 0;
-    datasets.forEach(dataset => {
-      // reset iterator when reached colors maximum
-      if (colorsIterator === colors.length)
-        colorsIterator = 0;
-      dataset.backgroundColor = colors[colorsIterator++];
-    });
-    return datasets;
+  static styleDatasets(datasets = [], configuration = config.datasets.default) {
+    const { backgroundColors, borderColors, borderWidth } = configuration;
+    let styledDatasets;
+    styledDatasets = applyPropValuesToSetItems(datasets, 'backgroundColor', backgroundColors);
+    styledDatasets = applyPropValuesToSetItems(datasets, 'borderColor', borderColors);
+    styledDatasets = applyPropValuesToSetItems(datasets, 'borderWidth', [borderWidth]);
+    return styledDatasets;
   }
-
-  // @todo: test setDatasets and setLabels
 }
 
 export default Chart;
