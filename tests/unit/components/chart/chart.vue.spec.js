@@ -49,11 +49,12 @@ describe('OvervueChart (@/components/chart/chart.vue)', () => {
 
     describe('styledDatasets', () => {
       let localThis;
-      beforeEach(() => localThis = {datasets: mockDatasets});
+      beforeEach(() => localThis = {datasets: mockDatasets()});
 
       it('returns styled datasets', () => {
         localThis.chartType = 'bar';
-        expect(OvervueChart.computed.styledDatasets.call(localThis)).to.deep.equal(Chart.styleDatasets(mockDatasets));
+        expect(OvervueChart.computed.styledDatasets.call(localThis))
+          .to.deep.equal(Chart.styleDatasets(mockDatasets()));
       });
 
       describe('when !!props.datasets is false', () => {
