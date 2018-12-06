@@ -4,7 +4,7 @@ import Chart from 'chart.js';
 
 Chart.defaults.global.defaultFontColor = colors.darkShades;
 Chart.defaults.global.defaultFontFamily = font.fontFamily;
-Chart.defaults.global.defaultFontSize = 16;
+Chart.defaults.global.defaultFontSize = parseInt(font.fontSize) - 4;
 Chart.defaults.global.tooltips.backgroundColor = colors.darkShades;
 
 const config = {

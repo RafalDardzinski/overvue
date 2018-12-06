@@ -57,14 +57,14 @@ export default {
     },
     organizeData({data}) {
       const labels = data.reduce((uniques, current) => {
-        if (!uniques.includes(current.userId))
+        if (!uniques.includes(current.userId) && current.userId)
           uniques.push(current.userId);
         return uniques;
       }, []);
       const datasets = [{
         label: 'Number of posts',
         data: labels.map(userId => data.filter(r => r.userId === userId).length)
-      }]
+      }];
       return {
         datasets,
         labels: labels.map(userId => `User ${userId}`)
