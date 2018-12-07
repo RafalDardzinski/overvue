@@ -7,32 +7,17 @@
       type="line"
       title="Posts per user"
       :filters="[
-        { name: 'id < 8', function: filterById, default: true }
+        { name: 'id < 8', function: idLessThan8 },
+        { name: 'id < 5', function: idLessThan5 }
       ]"
       ></overvue-chart-wrapper>
+      <overvue-chart-wrapper
+      :getData="getPosts"
+      :organizeData="organizeData"
+      type="bar"
+      title="Posts per user"
+      ></overvue-chart-wrapper>
     </div>
-    <overvue-error-boundary>
-      <overvue-chart 
-      chart-type="bar"
-      :loaded="dataLoaded"
-      :datasets="[{label: 'First', data: [2, 5, 8]},
-      {label: 'Second', data: [10, 11, 3]},
-      {label: 'Third', data: [4, 5, 1]},
-      {label: 'Fourth', data: [8, 15, 10]},
-      {label: 'Fifth', data: [13, 11, 9]}]"
-      :labels="['One', 'Two', 'Three']"
-      />
-      <overvue-chart 
-      chart-type="line"
-      :loaded="dataLoaded"
-      :datasets="[{label: 'First', data: [2, 5, 8]},
-      {label: 'Second', data: [10, 11, 3]},
-      {label: 'Third', data: [4, 5, 1]},
-      {label: 'Fourth', data: [8, 15, 10]},
-      {label: 'Fifth', data: [13, 11, 9]}]"
-      :labels="['One', 'Two', 'Three']"
-      />
-    </overvue-error-boundary>
   </div>
 </template>
 <script>
@@ -56,9 +41,11 @@ export default {
       this.dataLoaded = true;
     },
     getPosts() {
-      return axios.get('https://jsonplaceholder.typicode.com/posts')
+      return axios.get('https://my.api.mockaroo.com/test.json?key=c5d2b6a0')
+        .then(({data}) => data);
     },
     organizeData(data) {
+      data.sort((a, b) => a.userId - b.userId)
       const labels = data.reduce((uniques, current) => {
         if (!uniques.includes(current.userId) && current.userId)
           uniques.push(current.userId);
@@ -73,9 +60,11 @@ export default {
         labels: labels.map(userId => `User ${userId}`)
       }
     },
-    filterById({data}) {
-      console.log(data);
-      return Promise.resolve(data.filter(r => r.userId < 8));
+    idLessThan8(data) {
+      return data.filter(r => r.userId < 8);
+    },
+    idLessThan5(data) {
+      return data.filter(r => r.userId < 5);
     }
   },
   mounted() {

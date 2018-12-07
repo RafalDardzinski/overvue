@@ -3,17 +3,18 @@
     <header>
       <h3>{{title}}</h3>
       <overvue-chart-filter
-      v-if="filters.length"
+      @filter:activated="setActiveFilter"
+      v-if="filters.length > 1 && dataFetched"
       :filters="filters"
+      non-filter-name="All users"
       />
     </header>
     <div class="chart">
       <overvue-chart
-      @chart:ready="setFunctionUpdate"
       :chartType="type"
       :datasets="datasets"
       :labels="labels"
-      :loaded="loaded"
+      :data-fetched="dataFetched"
       ></overvue-chart>
     </div>
   </div>
@@ -47,37 +48,39 @@ export default {
   },
   data() {
     return {
-      loaded: false,
-      datasets: [],
-      labels: [],
+      chartData: [],
       activeFilter: vals => vals,
-      updateFunc: null
+      dataFetched: false
+    }
+  },
+  computed: {
+    filteredData() {
+      if (!this.chartData.length) return [];
+      return this.activeFilter(this.chartData);
+    },
+    organizedData() {
+      return this.organizeData(this.filteredData);
+    },
+    datasets() {
+      return this.organizedData.datasets || [];
+    },
+    labels() {
+      return this.organizedData.labels || [];
     }
   },
   methods: {
     init() {
-      this.loaded = false;
       this.getData()
-        .then(this.activeFilter)
-        .then(this.organizeData)
-        .then(({datasets, labels}) => {
-          this.datasets = datasets;
-          this.labels = labels;
-          this.loaded = true;
+        .then(data => {
+          this.chartData = data || [];
+          this.dataFetched = true;
         });
     },
-    setFunctionUpdate(updateFunc) {
-      this.updateFunc = updateFunc;
-    },
-    setDefaultActiveFilter() {
-      const defaultFilter =  this.filters.find(f => f.default);
-      if (defaultFilter) {
-        this.activeFilter = defaultFilter.function;
-      }
+    setActiveFilter(func) {
+      this.activeFilter = func;
     }
   },
   created() {
-    this.setDefaultActiveFilter()
     this.init();
   }
 }
