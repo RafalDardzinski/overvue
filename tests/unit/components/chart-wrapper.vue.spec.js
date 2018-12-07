@@ -1,9 +1,13 @@
+import chai from 'chai';
+import spies from 'chai-spies';
 import { expect } from 'chai';
 import { shallowMount } from '@vue/test-utils';
 import OvervueChartWrapper from '@/components/chart-wrapper.vue';
 import utils from './chart/utils';
 
+chai.use(spies);
 const { mockDatasets, mockLabels } = utils;
+
 
 const mountChartWrapper = () => shallowMount(OvervueChartWrapper, {
   props: {
