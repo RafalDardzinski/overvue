@@ -18,35 +18,6 @@ const createOvervueChartWrapper = () => {
 
 describe('OvervueChart (@/components/chart/chart.vue)', () => {
   describe('computed properties:', () => {
-    describe('ready', () => {
-      let localThis;
-      beforeEach(() => localThis = {loaded: true, datasets: true, labels: true, chart: true});
-
-      it('returns true when all of the following returns true: props.loaded, !!props.datasets, !!props.labels, !!data.chart', () => {
-        expect(OvervueChart.computed.ready.call(localThis)).to.be.true;
-      });
-
-      it('returns false if props.loaded is false', () => {
-        localThis.loaded = false;
-        expect(OvervueChart.computed.ready.call(localThis)).to.be.false;
-      });
-
-      it('returns false if props.datasets is false', () => {
-        localThis.datasets = false;
-        expect(OvervueChart.computed.ready.call(localThis)).to.be.false;
-      });
-
-      it('returns false if props.labels is false', () => {
-        localThis.labels = false;
-        expect(OvervueChart.computed.ready.call(localThis)).to.be.false;
-      });
-
-      it('returns false if data.chart is false', () => {
-        localThis.chart = false;
-        expect(OvervueChart.computed.ready.call(localThis)).to.be.false;
-      });
-    });
-
     describe('styledDatasets', () => {
       let localThis;
       beforeEach(() => localThis = {datasets: mockDatasets()});
@@ -122,8 +93,8 @@ describe('OvervueChart (@/components/chart/chart.vue)', () => {
   describe('render logic:', () => {
     let wrapper;
     beforeEach(() => wrapper = createOvervueChartWrapper());
-    describe('when ready property is false', () => {
-      beforeEach(() => wrapper.setProps({loaded: false}));
+    describe('when dataFetched property is false', () => {
+      beforeEach(() => wrapper.setProps({dataFetched: false}));
       it('renders LoadingIndicator', () => {
         expect(wrapper.contains(LoadingIndicator)).to.be.true;
       });
@@ -133,12 +104,11 @@ describe('OvervueChart (@/components/chart/chart.vue)', () => {
       });
     });
   
-    describe('when ready property is true', () => {
+    describe('when dataFetched property is true', () => {
       let wrapper;
       beforeEach(() => {
         wrapper = createOvervueChartWrapper();
-        wrapper.setProps({loaded: true, datasets: true, labels: true});
-        wrapper.setData({chart: true});
+        wrapper.setProps({dataFetched: true});
       });
 
       it('sets canvas.overvue-chart-canvas to be visible', () => {

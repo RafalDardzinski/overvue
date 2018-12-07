@@ -1,10 +1,9 @@
 <template>
   <div class="overvue-chart">
-    <overvue-loading-indicator v-if="!ready"></overvue-loading-indicator>
+    <overvue-loading-indicator v-if="!dataFetched"></overvue-loading-indicator>
     <canvas class="overvue-chart-canvas"
-    v-show="ready"
+    v-show="dataFetched"
     />
-    <p>ready: {{ready}}</p>
   </div>  
 </template>
 <script>
@@ -19,7 +18,7 @@ export default {
     'overvue-error-boundary': OvervueErrorBoundary
   },
   props: {
-    loaded: {
+    dataFetched: {
       type: Boolean,
       default: false
     },
@@ -38,15 +37,12 @@ export default {
     }
   },
   computed: {
-    ready() {
-      return !!this.loaded  // data must be loaded
-        && !!this.datasets  // datasets must be defined
-        && !!this.labels    // labels must be defined
-        && !!this.chart     //chart must be built
-    },
     styledDatasets() {
       if (this.datasets) return ChartFactory.getChartClass(this.chartType).styleDatasets(this.datasets);
       return [];
+    },
+    chartData() {
+      return [this.datasets, this.labels].join();
     }
   },
   methods: {
@@ -72,6 +68,9 @@ export default {
         this.updateChartInstance();
         this.$emit('chart:ready', this.updateChartInstance)
       }   
+    },
+    chartData() {
+      this.updateChartInstance();
     }
   },
   mounted() {
