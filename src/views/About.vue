@@ -6,6 +6,9 @@
       :organizeData="organizeData"
       type="line"
       title="Posts per user"
+      :filters="[
+        { name: 'id < 8', function: filterById, default: true }
+      ]"
       ></overvue-chart-wrapper>
     </div>
     <overvue-error-boundary>
@@ -55,7 +58,7 @@ export default {
     getPosts() {
       return axios.get('https://jsonplaceholder.typicode.com/posts')
     },
-    organizeData({data}) {
+    organizeData(data) {
       const labels = data.reduce((uniques, current) => {
         if (!uniques.includes(current.userId) && current.userId)
           uniques.push(current.userId);
@@ -69,6 +72,10 @@ export default {
         datasets,
         labels: labels.map(userId => `User ${userId}`)
       }
+    },
+    filterById({data}) {
+      console.log(data);
+      return Promise.resolve(data.filter(r => r.userId < 8));
     }
   },
   mounted() {

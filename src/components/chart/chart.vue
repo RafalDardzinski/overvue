@@ -68,8 +68,10 @@ export default {
   },
   watch: {
     ready() {
-      if (this.ready) 
+      if (this.ready) {
         this.updateChartInstance();
+        this.$emit('chart:ready', this.updateChartInstance)
+      }   
     }
   },
   mounted() {
