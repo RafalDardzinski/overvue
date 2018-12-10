@@ -59,7 +59,6 @@ describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () =>
   describe('computed', () => {
     describe('defaultFilter', () => {
       let wrapper;
-
       beforeEach(() => {
         wrapper = mountChartFilter();
       });
@@ -252,12 +251,12 @@ describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () =>
         expect(wrapper.contains('label[for="no-filter"]')).to.be.true;
       });
       
-      it('has text content that equals nonFilterName property', () => {
-        const nonFilterName = 'SomeText';
+      it('has text content that equals unfilteredInputName property', () => {
+        const unfilteredInputName = 'SomeText';
         wrapper.setProps({
-          nonFilterName
+          unfilteredInputName
         });
-        expect(wrapper.find(`label[for="no-filter"]`).text()).to.equal(nonFilterName);
+        expect(wrapper.find(`label[for="no-filter"]`).text()).to.equal(unfilteredInputName);
       });
     });
   });

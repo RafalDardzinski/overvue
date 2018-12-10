@@ -17,7 +17,7 @@
       @change="emitActiveFilter(defaultFilterFunc)"
       :checked="!this.defaultFilter.name"
       />
-      <label for="no-filter">{{nonFilterName}}</label>
+      <label for="no-filter">{{unfilteredInputName}}</label>
     </form>
   </div>
 </template>
@@ -31,7 +31,7 @@ export default {
         return filtersArr.every(filter => filter.name && filter.function && typeof filter.function === 'function')
       }
     },
-    nonFilterName: {
+    unfilteredInputName: {
       type: String,
       default: 'All'
     }
