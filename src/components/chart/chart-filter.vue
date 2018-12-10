@@ -4,12 +4,12 @@
       <template v-for="(filter, index) in filters">
         <input type="radio" 
         name="active-filter" 
-        :id="index" 
+        :id="`chart-filter-` + index" 
         :key="'input-' + index"
         @change="emitActiveFilter(filter.function)"
         :checked="!!filter.default"
         />
-        <label :for="index" :key="'label-' + index">{{filter.name}}</label>
+        <label :for="`chart-filter-` + index" :key="'label-' + index">{{filter.name}}</label>
       </template>
       <input type="radio" 
       name="active-filter" 
@@ -28,7 +28,7 @@ export default {
       type: Array,
       default: () => [],
       validator: filtersArr => {
-        return filtersArr.every(filter => filter.name && filter.function)
+        return filtersArr.every(filter => filter.name && filter.function && typeof filter.function === 'function')
       }
     },
     nonFilterName: {
@@ -38,12 +38,7 @@ export default {
   },
   computed: {
     defaultFilter() {
-      const defaultFilter = this.filters.find(f => f.default)
-      if (defaultFilter)
-        return defaultFilter;
-      return {
-        function: this.defaultFilterFunc
-      }
+      return this.filters.find(f => f.default) || { function: this.defaultFilterFunc }
     }
   },
   methods: {
