@@ -4,24 +4,29 @@
       <h3>{{title}}</h3>
       <overvue-chart-filter
       @filter:activated="setActiveFilter"
-      v-if="filters.length > 1 && dataFetched"
+      v-if="filters.length > 1 && dataReady"
       :filters="filters"
-      non-filter-name="All users"
+      :unfiltered-input-name="unfilteredInputName"
       />
     </header>
-    <div class="chart">
+    <div class="chart" v-if="!dataFetchedError">
       <overvue-chart
       :chartType="type"
       :datasets="datasets"
       :labels="labels"
-      :data-fetched="dataFetched"
+      :data-fetched="dataReady"
       ></overvue-chart>
     </div>
+    <!-- <div v-else>
+      Could not obtain data from the server.
+    </div> -->
+    
   </div>
 </template>
 <script>
 import Chart from './chart/chart.vue';
 import ChartFilter from './chart/chart-filter.vue';
+import ErrorBoudary from './error-boundary.vue';
 
 export default {
   components: {
@@ -44,13 +49,15 @@ export default {
     filters: {
       type: Array,
       default: () => []
-    }
+    },
+    unfilteredInputName: String
   },
   data() {
     return {
       chartData: [],
       activeFilter: vals => vals,
-      dataFetched: false
+      dataFetched: false,
+      dataFetchedError: undefined
     }
   },
   computed: {
@@ -66,22 +73,34 @@ export default {
     },
     labels() {
       return this.organizedData.labels || [];
+    },
+    dataReady() {
+      return this.dataFetched && !this.dataFetchedError;
     }
   },
   methods: {
     init() {
-      this.getData()
+      return this.getData()
         .then(data => {
-          this.chartData = data || [];
+          this.chartData = data;
           this.dataFetched = true;
-        });
+          return Promise.resolve();
+        })
     },
     setActiveFilter(func) {
       this.activeFilter = func;
+    },
+    setDataFetchedError(error) {
+      this.dataFetchedError = error;
+      this.dataFetched = true;
     }
   },
   created() {
-    this.init();
+    this.init()
+      .catch(error => {
+        this.setDataFetchedError(error);
+        throw new Error(`Could not initialize ${this.title || 'chart'}.\n${error}`);
+      })
   }
 }
 </script>
