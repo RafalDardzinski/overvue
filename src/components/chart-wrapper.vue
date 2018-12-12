@@ -17,10 +17,9 @@
       :data-fetched="dataReady"
       ></overvue-chart>
     </div>
-    <!-- <div v-else>
+    <div v-else>
       Could not obtain data from the server.
-    </div> -->
-    
+    </div>
   </div>
 </template>
 <script>
