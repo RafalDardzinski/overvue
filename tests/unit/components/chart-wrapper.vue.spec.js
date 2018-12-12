@@ -61,10 +61,11 @@ describe('OvervueChartWrapper (@/components/chart-wrapper.vue)', () => {
     });
 
     describe('setDataFetchedError(error)', () => {
-      let wrapper;
+      let wrapper, previousDataFetchedVal;
       const error = new Error('some error');
       beforeEach(() => {
         wrapper = mountChartWrapper();
+        previousDataFetchedVal = wrapper.vm.dataFetched;
         wrapper.vm.setDataFetchedError.call(wrapper.vm, error);
       });
 
@@ -73,6 +74,8 @@ describe('OvervueChartWrapper (@/components/chart-wrapper.vue)', () => {
       });
 
       it('sets this.dataFetched to true', () => {
+        expect(previousDataFetchedVal, `Could not test the function: this.dataFetched was initialized as true`)
+          .to.not.be.true;
         expect(wrapper.vm.dataFetched).to.be.true;
       });
     });
@@ -80,15 +83,32 @@ describe('OvervueChartWrapper (@/components/chart-wrapper.vue)', () => {
 
   describe('computed', () => {
     describe('filteredData', () => {
+      const { filteredData } = OvervueChartWrapper.computed;
+      const activeFilterMock = data => true;
+
       describe('when this.chartData.length > 0', () => {
         it('returns this.activeFilter(this.chartData)', () => {
-
+          const localThis = {
+            chartData: [1, 2, 3],
+            activeFilter: activeFilterMock
+          };
+          
+          const spy = chai.spy.on(localThis, 'activeFilter');
+          expect(filteredData.call(localThis)).to.equal(activeFilterMock(localThis.chartData));
+          expect(spy).to.have.been.called.once.with(localThis.chartData);
         });
       });
 
       describe('when !!this.chartData.length equals false', () => {
         it('returns empty array', () => {
+          const localThis = {
+            chartData: [],
+            activeFilter: activeFilterMock
+          };
 
+          const spy = chai.spy.on(localThis, 'activeFilter');
+          expect(filteredData.call(localThis)).to.be.an('array').with.lengthOf(0);
+          expect(spy).to.not.have.been.called();
         });
       });
     });
