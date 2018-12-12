@@ -1,10 +1,10 @@
 <template>
   <div class="chart-wrapper">
     <header>
-      <h3>{{title}}</h3>
+      <h3 v-if="title">{{title}}</h3>
       <overvue-chart-filter
-      @filter:activated="setActiveFilter"
-      v-if="filters.length > 1 && dataReady"
+      @filter:activated="setActiveFilter($event)"
+      v-if="filters.length && dataReady"
       :filters="filters"
       :unfiltered-input-name="unfilteredInputName"
       />
@@ -56,7 +56,7 @@ export default {
       chartData: [],
       activeFilter: vals => vals,
       dataFetched: false,
-      dataFetchedError: undefined
+      dataFetchedError: null
     }
   },
   computed: {
@@ -87,6 +87,7 @@ export default {
         })
     },
     setActiveFilter(func) {
+      console.log(func)
       this.activeFilter = func;
     },
     setDataFetchedError(error) {
