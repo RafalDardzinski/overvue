@@ -58,6 +58,7 @@ export default {
 @import '@/config/colors.scss';
 @import '@/config/font.scss';
 
+
 form {
   input[type="radio"] {
     display: none;

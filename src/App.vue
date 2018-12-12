@@ -9,21 +9,25 @@
 </template>
 
 <style lang="scss">
+@import '@/styles/typography.scss';
+
 #app {
-  font-family: 'Avant Garde SAP', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  // font-family: 'Avant Garde SAP', Helvetica, Arial, sans-serif;
+  // -webkit-font-smoothing: antialiased;
+  // -moz-osx-font-smoothing: grayscale;
   // text-align: center;
   color: #2c3e50;
 }
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
+
+
+// #nav {
+//   padding: 30px;
+//   a {
+//     font-weight: bold;
+//     color: #2c3e50;
+//     &.router-link-exact-active {
+//       color: #42b983;
+//     }
+//   }
+// }
 </style>

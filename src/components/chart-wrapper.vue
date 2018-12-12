@@ -111,5 +111,14 @@ export default {
 
 header {
   padding: 0 .5rem;
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  align-items: center;
 }
+
+h3 {
+  flex: 1;
+}
+
 </style>
