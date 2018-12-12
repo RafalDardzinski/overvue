@@ -105,8 +105,8 @@ describe('OvervueChartWrapper (@/components/chart-wrapper.vue)', () => {
             chartData: [],
             activeFilter: activeFilterMock
           };
-
           const spy = chai.spy.on(localThis, 'activeFilter');
+
           expect(filteredData.call(localThis)).to.be.an('array').with.lengthOf(0);
           expect(spy).to.not.have.been.called();
         });
@@ -114,25 +114,87 @@ describe('OvervueChartWrapper (@/components/chart-wrapper.vue)', () => {
     });
 
     describe('organizedData', () => {
-      it('', () => {
-        
+      it(`returns this.organizeData(this.filteredData)`, () => {
+        const organizeDataMock = () => true;
+        const filteredDataMock = [1, 2, 3];
+        const localThis = {
+          organizeData: organizeDataMock,
+          filteredData: filteredDataMock
+        };
+        const { organizedData } = OvervueChartWrapper.computed;
+        const spy = chai.spy.on(localThis, 'organizeData');
+
+        expect(organizedData.call(localThis)).to.equal(organizeDataMock(filteredDataMock));
+        expect(spy).to.have.been.called.once.with(localThis.filteredData);
       });
     });
 
     describe('datasets', () => {
-      it('', () => {
-        
+      const { datasets } = OvervueChartWrapper.computed;
+      
+      it('returns this.organizedData.datasets', () => {
+        const localThis = {
+          organizedData: { datasets: mockDatasets() }
+        };
+        expect(datasets.call(localThis)).to.equal(localThis.organizedData.datasets);
+      });
+      
+      describe('when !!organizedData.datasets is false', () => {
+        it('returns empty array', () => {
+          const localThis = {
+            organizedData: {}
+          };
+          expect(datasets.call(localThis)).to.be.an('array').with.lengthOf(0);
+        });
       });
     });
 
     describe('labels', () => {
-      it('', () => {
-        
+      const { labels } = OvervueChartWrapper.computed;
+      
+      it('returns this.organizedData.labels', () => {
+        const localThis = {
+          organizedData: { labels: mockLabels() }
+        };
+        expect(labels.call(localThis)).to.equal(localThis.organizedData.labels);
+      });
+      
+      describe('when !!organizedData.labels is false', () => {
+        it('returns empty array', () => {
+          const localThis = {
+            organizedData: {}
+          };
+          expect(labels.call(localThis)).to.be.an('array').with.lengthOf(0);
+        });
       });
     });
 
     describe('dataReady', () => {
+      const { dataReady } = OvervueChartWrapper.computed;
+      let localThis;
+      beforeEach(() => {
+        localThis = { dataFetched: true, dataFetchedError: false };
+      });
+      
+      describe('when !!this.dataFetched is true and !!this.dataFetchedError is false', () => {
+        it('returns true', () => {
+          expect(dataReady.call(localThis)).to.be.true;
+        });
+      });
+      
+      describe('when !!this.dataFetched is false', () => {
+        it('returns false', () => {
+          localThis.dataFetched = false;
+          expect(dataReady.call(localThis)).to.be.false;
+        });
+      });
 
+      describe('when !!this.dataFetchedError is true', () => {
+        it('returns false', () => {
+          localThis.dataFetchedError = true;
+          expect(dataReady.call(localThis)).to.be.false;
+        });
+      });
     });
   });
   
