@@ -3,6 +3,8 @@ import spies from 'chai-spies';
 import { expect } from 'chai';
 import { shallowMount } from '@vue/test-utils';
 import OvervueChartWrapper from '@/components/chart-wrapper.vue';
+import OvervueChartFilter from '@/components/chart/chart-filter.vue';
+import OvervueChart from '@/components/chart/chart.vue';
 import utils from './chart/utils';
 
 chai.use(spies);
@@ -198,51 +200,143 @@ describe('OvervueChartWrapper (@/components/chart-wrapper.vue)', () => {
     });
   });
   
-  describe('render logic', () => {
+  describe('render logic', () => {    
     describe('header>h3', () => {
-      it('has textContent that equals props.title', () => {
-        
+      let wrapper, h3;
+      beforeEach(() => {
+        wrapper = mountChartWrapper();
+        h3 = wrapper.find('header>h3');
+      });
+
+      describe('when !!props.title is true', () => {
+        it('is rendered', () => {
+          expect(h3).to.exist;
+        });
+
+        it('has textContent that equals props.title', () => {
+          expect(h3.text()).to.equal(wrapper.vm.title);
+        });
       });
 
       describe('when !!props.title is false', () => {
         it('is not rendered', () => {
-          
+          wrapper.setProps({
+            title: undefined
+          });
+          expect(wrapper.contains('header>h3')).to.be.false;
         });
       });
     });
 
     describe('header>OvervueChartFilter', () => {
-      describe('when props.filters.length > 1 && dataReady', () => {
+      describe('when !!props.filters.length is true and !!dataReady is true', () => {
         it('is rendered', () => {
+          const wrapper = shallowMount(OvervueChartWrapper, {
+            propsData: {
+              getData: () => Promise.resolve({ datasets: mockDatasets(), labels: mockLabels() }),
+              organizeData: data => data,
+              filters: [1]
+            },
+            computed: {
+              dataReady() {
+                return true;
+              }
+            }
+          });
           
+          expect(wrapper.contains(OvervueChartFilter)).to.be.true;
         });
 
-        it('calls setActiveFilter on @filterActivated event', () => {
-          
+        it('calls setActiveFilter with payload on @filter:activated event', () => {
+          const wrapper = shallowMount(OvervueChartWrapper, {
+            propsData: {
+              getData: () => Promise.resolve({ datasets: mockDatasets(), labels: mockLabels() }),
+              organizeData: data => data,
+              filters: [1]
+            },
+            computed: {
+              dataReady() {
+                return true;
+              }
+            }
+          });
+
+          const spy = chai.spy.on(wrapper.vm, 'setActiveFilter');
+          const overvueChartFilter = wrapper.find(OvervueChartFilter);
+          const payloadFunc = () => true;
+
+          overvueChartFilter.vm.$emit('filter:activated', payloadFunc);
+          expect(spy).to.have.been.called.with(payloadFunc);
         });
       });
 
-      describe('when props.filters.length lt 1 or !!dataRady is false', () => {
+      describe('when !!props.filters.length is false', () => {
         it('is not rendered', () => {
-          
+          const wrapper = shallowMount(OvervueChartWrapper, {
+            propsData: {
+              getData: () => Promise.resolve({ datasets: mockDatasets(), labels: mockLabels() }),
+              organizeData: data => data
+            },
+            computed: {
+              dataReady() {
+                return true;
+              }
+            }
+          });
+
+          expect(wrapper.contains(OvervueChartFilter)).to.be.false;
+        });
+      });
+
+      describe('when !!dataReady is false', () => {
+        it('it is not rendered', () => {
+          const wrapper = shallowMount(OvervueChartWrapper, {
+            propsData: {
+              getData: () => Promise.resolve({ datasets: mockDatasets(), labels: mockLabels() }),
+              organizeData: data => data,
+              filters: [1]
+            },
+            computed: {
+              dataReady() {
+                return false;
+              }
+            }
+          });
+
+          expect(wrapper.contains(OvervueChartFilter)).to.be.false;
         });
       });
     });
 
     describe('div.chart', () => {
-      describe('when !!this.dataFetchedError equals false', () => {
+      let wrapper;
+      beforeEach(() => {
+        wrapper = mountChartWrapper();
+      });
+
+      describe('when !!this.dataFetchedError is false', () => {
+        beforeEach(() => {
+          wrapper.setData({
+            dataFetchedError: null
+          });
+        });
+
         it('is rendered', () => {
-          
+          expect(wrapper.contains('div.chart')).to.be.true;
         });
 
         it('contains OvervueChart', () => {
-          
+          expect(wrapper.find('div.chart').contains(OvervueChart)).to.be.true;
         });
       });
 
-      describe('when !!this.dataFetchedErrror equals true', () => {
+      describe('when !!this.dataFetchedErrror is true', () => {
         it('is not rendered', () => {
-          
+          wrapper.setData({
+            dataFetchedError: true
+          });
+
+          expect(wrapper.contains('div.chart')).to.be.false;
         });
       });
     });
