@@ -2,7 +2,8 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/about">About</router-link> | 
+      <router-link to="/buttons">Buttons</router-link>
     </div>
     <router-view/>
   </div>
@@ -10,6 +11,7 @@
 
 <style lang="scss">
 @import '@/styles/typography.scss';
+@import '@/styles/buttons.scss';
 
 #app {
   // font-family: 'Avant Garde SAP', Helvetica, Arial, sans-serif;

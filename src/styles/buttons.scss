@@ -1,0 +1,29 @@
+@import '@/config/colors.scss';
+
+.button {
+  border-width: 1px;
+  border-style: solid;
+  text-align: center;
+  padding: .4em .6em;
+  box-sizing: border-box;
+  outline: 0;
+  font-weight: bold;
+  font-size: .8em;
+  transition: color .2s, background .2s;
+  cursor: pointer;
+  border-radius: .25em;
+}
+
+button {
+  @extend .button;
+}
+
+.button-primary {
+  @extend .button;
+  background-color: $primary;
+  color: $light-shades;
+  
+  &:hover {
+    background-color: rgba($primary, .9);
+  }
+}
