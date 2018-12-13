@@ -2,12 +2,14 @@
   <div class="chart-wrapper">
     <header>
       <h4 v-if="title">{{title}}</h4>
-      <overvue-chart-filter
-      @filter:activated="setActiveFilter($event)"
-      v-if="filters.length && dataReady"
-      :filters="filters"
-      :unfiltered-input-name="unfilteredInputName"
-      />
+      <div class="options">
+        <overvue-chart-filter
+        @filter:activated="setActiveFilter($event)"
+        v-if="filters.length && dataReady"
+        :filters="filters"
+        :unfiltered-input-name="unfilteredInputName"
+        />
+      </div>
     </header>
     <div class="chart" v-if="!dataFetchedError">
       <overvue-chart
@@ -114,10 +116,19 @@ header {
   width: 100%;
   box-sizing: border-box;
   align-items: center;
+
+  h4 {
+    flex: 2;
+  }
+
+  .options {
+    flex: 1;
+  }
+
 }
 
-h3 {
-  flex: 1;
-}
+
+
+
 
 </style>

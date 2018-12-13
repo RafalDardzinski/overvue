@@ -1,6 +1,6 @@
 <template>
   <div class="chart-filter">
-    <form action="">
+    <form class="filters">
       <template v-for="(filter, index) in filters">
         <input type="radio" 
         name="active-filter" 
@@ -9,7 +9,7 @@
         @change="emitActiveFilter(filter.function)"
         :checked="!!filter.default"
         />
-        <label :for="`chart-filter-` + index" :key="'label-' + index">{{filter.name}}</label>
+        <label class="button filter-button" :for="`chart-filter-` + index" :key="'label-' + index">{{filter.name}}</label>
       </template>
       <input type="radio" 
       name="active-filter" 
@@ -17,7 +17,7 @@
       @change="emitActiveFilter(defaultFilterFunc)"
       :checked="!this.defaultFilter.name"
       />
-      <label for="no-filter">{{unfilteredInputName}}</label>
+      <label class="button filter-button" for="no-filter">{{unfilteredInputName}}</label>
     </form>
   </div>
 </template>
@@ -59,29 +59,40 @@ export default {
 @import '@/config/font.scss';
 
 
-form {
+.filters {
+  padding: 0;
+  display: flex;
+  border-radius: .25em;
+  overflow: hidden;
+  border: 1px solid $primary;
+  box-sizing: border-box;
+
   input[type="radio"] {
     display: none;
   }
 
-  label {
-    font-size: $font-size-button + px;
-    padding: .8em;
-    display: inline-block;
-    cursor: pointer;
-    background-color: $default;
-    color: $light-shades;
-    box-sizing: border-box;
-    border-left: 1px solid $light-shades;
-    transition: background .2s;
-
-    &:hover {
-      background-color: rgba($default, .8)
-    }
-  }
-
   input[type="radio"]:checked+label{
     background-color: $primary;
+    color: $light-shades;
+  }
+}
+
+.filter-button {
+  border-width: 0 1px;
+  border-color: $primary;
+  flex: 1;
+  color: rgba($primary, .8);
+
+  &:first-child {
+    border-left: 0;
+  }
+
+  &:last-child {
+    border-right: 0;
+  }
+
+  &:hover {
+    background-color: rgba($primary, .2)
   }
 }
 </style>

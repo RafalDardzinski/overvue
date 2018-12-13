@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 // register FontAwesome icons here
 import { 
-  faUserSecret
+  faUserSecret, faFilter, faFileDownload
 } from '@fortawesome/free-solid-svg-icons';
-library.add(faUserSecret);
+library.add(faUserSecret, faFilter, faFileDownload);
 
 export default FontAwesomeIcon;
