@@ -87,7 +87,6 @@ export default {
         })
     },
     setActiveFilter(func) {
-      console.log(func)
       this.activeFilter = func;
     },
     setDataFetchedError(error) {
