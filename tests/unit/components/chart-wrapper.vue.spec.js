@@ -201,11 +201,11 @@ describe('OvervueChartWrapper (@/components/chart-wrapper.vue)', () => {
   });
   
   describe('render logic', () => {    
-    describe('header>h3', () => {
+    describe('header>h4', () => {
       let wrapper, h3;
       beforeEach(() => {
         wrapper = mountChartWrapper();
-        h3 = wrapper.find('header>h3');
+        h3 = wrapper.find('header>h4');
       });
 
       describe('when !!props.title is true', () => {

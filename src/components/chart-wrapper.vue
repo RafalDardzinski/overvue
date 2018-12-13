@@ -1,7 +1,7 @@
 <template>
   <div class="chart-wrapper">
     <header>
-      <h3 v-if="title">{{title}}</h3>
+      <h4 v-if="title">{{title}}</h4>
       <overvue-chart-filter
       @filter:activated="setActiveFilter($event)"
       v-if="filters.length && dataReady"
