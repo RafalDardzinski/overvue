@@ -202,19 +202,19 @@ describe('OvervueChartWrapper (@/components/chart-wrapper.vue)', () => {
   
   describe('render logic', () => {    
     describe('header>h4', () => {
-      let wrapper, h3;
+      let wrapper, headerContent;
       beforeEach(() => {
         wrapper = mountChartWrapper();
-        h3 = wrapper.find('header>h4');
+        headerContent = wrapper.find('header>h4');
       });
 
       describe('when !!props.title is true', () => {
         it('is rendered', () => {
-          expect(h3).to.exist;
+          expect(headerContent).to.exist;
         });
 
         it('has textContent that equals props.title', () => {
-          expect(h3.text()).to.equal(wrapper.vm.title);
+          expect(headerContent.text()).to.equal(wrapper.vm.title);
         });
       });
 
