@@ -51,7 +51,7 @@ describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () =>
           { name: 'filter1', function: () => true, default: true },
           { function: () => true }
         ];
-        expect(validator(props)).to.be.false
+        expect(validator(props)).to.be.false;
       });
     });
   });
@@ -157,7 +157,7 @@ describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () =>
         it('renders with checked attribute', () => {
           const defaultFilter = wrapper.vm.filters.find(el => el.default);
           const defaultFilterIndex = wrapper.vm.filters.indexOf(defaultFilter);
-          const defaultFilterInput = wrapper.findAll(`input[type="radio"]:not(#no-filter)`).at(defaultFilterIndex)
+          const defaultFilterInput = wrapper.findAll(`input[type="radio"]:not(#no-filter)`).at(defaultFilterIndex);
           expect(defaultFilterInput.is(':checked')).to.equal(true);
         });
       });
@@ -216,6 +216,12 @@ describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () =>
         const { filters } = wrapper.vm;
         labels.forEach((label, index) => {
           expect(label.text()).to.equal(filters[index].name);
+        });
+      });
+
+      it('has class="button-primary filter-button"', () => {
+        labels.forEach(label => {
+          expect(label.classes()).to.have.members(['button-primary', 'filter-button']);
         });
       });
     });
