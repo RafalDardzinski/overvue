@@ -5,7 +5,7 @@ import Chart from 'chart.js';
 Chart.defaults.global.defaultFontColor = colors.darkShades;
 Chart.defaults.global.defaultFontFamily = font.fontFamily;
 Chart.defaults.global.defaultFontSize = parseInt(font.fontSize) - 4;
-Chart.defaults.global.tooltips.backgroundColor = colors.darkShades;
+Chart.defaults.global.tooltips.backgroundColor = colors.chartTooltip;
 
 const config = {
   // general settings applicable to all charts
