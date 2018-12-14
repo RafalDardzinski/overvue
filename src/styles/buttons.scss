@@ -9,9 +9,38 @@
   outline: 0;
   font-weight: bold;
   font-size: .8em;
-  transition: color .2s, background .2s;
+  transition: color .2s, background .2s, transform .1s;
   cursor: pointer;
   border-radius: .25em;
+}
+
+@mixin button-style($background-color, $font-color:$dark-shades) {
+  @extend .button;
+  background-color: $background-color;
+  color: $font-color;
+  border-color: rgba($background-color, .9);
+
+  &:hover {
+    background-color: rgba($background-color, .85);
+  }
+
+  &:active {
+    transform: scale(.98);
+  }
+
+  &.button--disabled {
+    background-color: rgba($background-color, .2);
+    color: rgba($dark-shades, .5);
+    border: none;
+
+    &:active {
+      transform: none;
+    }
+
+    &:hover {
+      background-color: rgba($background-color, .2);
+    }
+  }
 }
 
 button {
@@ -19,11 +48,25 @@ button {
 }
 
 .button-primary {
-  @extend .button;
-  background-color: $primary;
-  color: $light-shades;
-  
-  &:hover {
-    background-color: rgba($primary, .9);
-  }
+  @include button-style($primary, $light-shades)
+}
+
+.button-secondary {
+  @include button-style($dark-accent, $light-shades)
+}
+
+.button-success {
+  @include button-style($success, $light-shades);
+}
+
+.button-warning {
+  @include button-style($warning, $light-shades);
+}
+
+.button-danger {
+  @include button-style($danger, $light-shades);
+}
+
+.button-info {
+  @include button-style($info, $light-shades);
 }
