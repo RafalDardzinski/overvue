@@ -9,7 +9,7 @@
         @change="emitActiveFilter(filter.function)"
         :checked="!!filter.default"
         />
-        <label class="button filter-button" :for="`chart-filter-` + index" :key="'label-' + index">{{filter.name}}</label>
+        <label class="button-primary filter-button" :for="`chart-filter-` + index" :key="'label-' + index">{{filter.name}}</label>
       </template>
       <input type="radio" 
       name="active-filter" 
@@ -17,7 +17,7 @@
       @change="emitActiveFilter(defaultFilterFunc)"
       :checked="!this.defaultFilter.name"
       />
-      <label class="button filter-button" for="no-filter">{{unfilteredInputName}}</label>
+      <label class="button-primary filter-button" for="no-filter">{{unfilteredInputName}}</label>
     </form>
   </div>
 </template>
@@ -55,44 +55,41 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@import '@/styles/buttons.scss';
 @import '@/config/colors.scss';
-@import '@/config/font.scss';
-
 
 .filters {
   padding: 0;
   display: flex;
   border-radius: .25em;
   overflow: hidden;
-  border: 1px solid $primary;
   box-sizing: border-box;
+  background-color: $main;
 
   input[type="radio"] {
     display: none;
   }
 
   input[type="radio"]:checked+label{
-    background-color: $primary;
-    color: $light-shades;
+    background-color: $success;
   }
 }
 
 .filter-button {
-  border-width: 0 1px;
-  border-color: $primary;
+  border-radius: 0 !important;
   flex: 1;
-  color: rgba($primary, .8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-color: $light-shades;
+  border-width: 0px 1px;
 
   &:first-child {
-    border-left: 0;
+    border-width: 0 1px 0 0
   }
 
   &:last-child {
-    border-right: 0;
-  }
-
-  &:hover {
-    background-color: rgba($primary, .2)
+    border-width: 0 0 0 1px;
   }
 }
 </style>

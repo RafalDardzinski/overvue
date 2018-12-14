@@ -118,13 +118,12 @@ header {
   align-items: center;
 
   h4 {
-    flex: 2;
+    flex: 1.5;
   }
 
   .options {
     flex: 1;
   }
-
 }
 
 
