@@ -1,7 +1,6 @@
 <template>
   <div class="about">
-    {{$store.state.APP_OFFSET_WIDTH}}
-    <div>
+    <div class="charts">
       <overvue-chart-wrapper
       :getData="getPosts"
       :organizeData="organizeData"
@@ -34,7 +33,7 @@ export default {
   },
   data() {
     return {
-      dataLoaded: false
+      dataLoaded: false,
     }
   },
   methods: {
@@ -42,30 +41,30 @@ export default {
       this.dataLoaded = true;
     },
     getPosts() {
-      return axios.get('https://my.api.mockaroo.com/test.json?key=c5d2b6a0')
+      return axios.get('https://jsonplaceholder.typicode.com/comments')
         .then(({data}) => data);
     },
     organizeData(data) {
-      data.sort((a, b) => a.userId - b.userId)
+      data.sort((a, b) => a.postId - b.postId)
       const labels = data.reduce((uniques, current) => {
-        if (!uniques.includes(current.userId) && current.userId)
-          uniques.push(current.userId);
+        if (!uniques.includes(current.postId) && current.postId)
+          uniques.push(current.postId);
         return uniques;
       }, []);
       const datasets = [{
         label: 'Number of posts',
-        data: labels.map(userId => data.filter(r => r.userId === userId).length)
+        data: labels.map(postId => data.filter(r => r.postId === postId).length)
       }];
       return {
         datasets,
-        labels: labels.map(userId => `User ${userId}`)
+        labels: labels.map(postId => `User ${postId}`)
       }
     },
     idLessThan8(data) {
-      return data.filter(r => r.userId < 8);
+      return data.filter(r => r.postId < 8);
     },
     idLessThan5(data) {
-      return data.filter(r => r.userId < 5);
+      return data.filter(r => r.postId < 5);
     }
   },
   mounted() {
@@ -74,5 +73,11 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.charts {
+  // display: flex;
 
+  &>* {
+    flex: 1;
+  }
+}
 </style>

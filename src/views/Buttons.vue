@@ -8,6 +8,7 @@
       <button class="button-warning">Warning</button>
       <button class="button-danger">Danger</button>
       <button class="button-info">Info</button>
+      <button class="button-link">Link</button>
     </section>
     <section>
       <header><h4>Disabled</h4></header>
@@ -17,6 +18,7 @@
       <button class="button-warning button--disabled">Warning</button>
       <button class="button-danger button--disabled">Danger</button>
       <button class="button-info button--disabled">Info</button>
+      <button class="button-link button--disabled">Link</button>
     </section>
   </div>
 </template>
