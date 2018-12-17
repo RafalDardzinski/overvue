@@ -1,7 +1,7 @@
 import chai from 'chai';
 import spies from 'chai-spies';
 import { expect } from 'chai';
-import { shallowMount } from '@vue/test-utils';
+import { shallowMount, mount } from '@vue/test-utils';
 import OvervueChartWrapper from '@/components/chart-wrapper.vue';
 import OvervueChartFilter from '@/components/chart/chart-filter.vue';
 import OvervueChart from '@/components/chart/chart.vue';
@@ -10,7 +10,7 @@ import utils from './chart/utils';
 chai.use(spies);
 const { mockDatasets, mockLabels } = utils;
 
-const mountChartWrapper = () => shallowMount(OvervueChartWrapper, {
+const mountChartWrapper = (mountFunc = shallowMount) => mountFunc(OvervueChartWrapper, {
   propsData: {
     title: 'Test Chart',
     type: 'bar',
@@ -78,6 +78,18 @@ describe('OvervueChartWrapper (@/components/chart-wrapper.vue)', () => {
         expect(previousDataFetchedVal, `Could not test the function: this.dataFetched was initialized as true`)
           .to.not.be.true;
         expect(wrapper.vm.dataFetched).to.be.true;
+      });
+    });
+
+    describe('calculateWrapperWidth()', () => {
+      it('returns this.$el.offsetWidth', () => {
+        const offsetWidth = 471;
+        const localThis = {
+          $el: { offsetWidth }
+        };
+        const { calculateWrapperWidth } = OvervueChartWrapper.methods;
+
+        expect(calculateWrapperWidth.call(localThis)).to.equal(offsetWidth);
       });
     });
   });

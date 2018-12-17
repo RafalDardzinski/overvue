@@ -97,6 +97,9 @@ export default {
     setDataFetchedError(error) {
       this.dataFetchedError = error;
       this.dataFetched = true;
+    },
+    calculateWrapperWidth() {
+      return this.$el.offsetWidth;
     }
   },
   created() {
