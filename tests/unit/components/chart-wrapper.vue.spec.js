@@ -311,11 +311,11 @@ describe('OvervueChartWrapper (@/components/chart-wrapper.vue)', () => {
       });
     });
     
-    describe('header>h4', () => {
+    describe('header>h3', () => {
       let wrapper, headerContent;
       beforeEach(() => {
         wrapper = mountChartWrapper();
-        headerContent = wrapper.find('header>h4');
+        headerContent = wrapper.find('header>h3');
       });
 
       describe('when !!props.title is true', () => {

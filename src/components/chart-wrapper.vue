@@ -1,7 +1,7 @@
 <template>
   <div class="chart-wrapper">
     <header :class="{compact: compactMode}">
-      <h4 v-if="title">{{title}}</h4>
+      <h3 v-if="title">{{title}}</h3>
       <div class="options">
         <overvue-chart-filter
         @filter:activated="setActiveFilter($event)"
@@ -139,7 +139,7 @@ header {
   box-sizing: border-box;
   align-items: center;
 
-  h4 {
+  h3 {
     flex: 1.5;
   }
 
@@ -149,7 +149,7 @@ header {
 }
 
 header.compact {
-  h4 {
+  h3 {
     flex: 1;
   }
 
