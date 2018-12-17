@@ -70,3 +70,27 @@ button {
 .button-info {
   @include button-style($info, $light-shades);
 }
+
+.button-link {
+  @extend button;
+  background-color: transparent;
+  color: $primary;
+  border: none;
+
+  &:hover {
+    color: $light-accent;
+  }
+
+  &.button--disabled {
+    color: $dark-accent;
+    border: none;
+
+    &:active {
+      transform: none;
+    }
+
+    &:hover {
+      color: $dark-accent;
+    }
+  }
+}
