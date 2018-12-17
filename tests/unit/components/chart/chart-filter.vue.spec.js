@@ -3,7 +3,6 @@ import spies from 'chai-spies';
 import { expect } from 'chai';
 import { shallowMount, WrapperArray } from '@vue/test-utils';
 import OvervueChartFilter from '@/components/chart/chart-filter.vue';
-import utils from './utils';
 
 chai.use(spies);
 
@@ -25,6 +24,12 @@ const mountChartFilter = () => shallowMount(OvervueChartFilter, {
     compact: false
   }
 });
+
+/**
+ * @TODO: button tests with click event
+ * @TODO: methods: handleFilterChange()
+ * @TODO: class tests
+ */
 
 describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () => {
   describe('properties', () => {
@@ -173,7 +178,22 @@ describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () =>
 
       describe('when this.activeFilter equals filter.name', () => {
         it('is has checked attribute', () => {
-          throw new Error('Not yet implemented');      
+          const testIndex = 2;
+          const filters = [
+            { name: 'filter1', function: () => true },
+            { name: 'filter2', function: () => true },
+            { name: 'filter3', function: () => true }
+          ];
+
+          wrapper.setProps({
+            filters
+          });
+          wrapper.setData({
+            activeFilter: filters[testIndex].name
+          });
+
+          const input = wrapper.findAll('input[type="radio"]:not(#no-filter)').at(testIndex);
+          expect(input.is(':checked')).to.be.true;
         });
       });
 
@@ -188,7 +208,7 @@ describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () =>
           });
           wrapper.setData({
             activeFilter: 'no-filter'
-          })
+          });
         });
         it('does not have checked attribute', () => {
           const filterInputs = wrapper.findAll(`input[type="radio"]:not(#no-filter)`);
@@ -201,15 +221,25 @@ describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () =>
       });
 
       describe('on @change', () => {
-        // @TODO: refactor this to include changes in the logic
-        it('calls emitActiveFilter() with filter.function attribute', () => {
+        it('calls handleFilterChange() with filter.name and filter.function arguments', () => {
           const { filters } = wrapper.vm;
           const filterInputs = wrapper.findAll(`input[type="radio"]:not(#no-filter)`);
-          const spy = chai.spy.on(wrapper.vm, 'emitActiveFilter');
+          const spy = chai.spy.on(wrapper.vm, 'handleFilterChange');
           
           filterInputs.forEach((input, i) => {
             input.trigger('change');
-            expect(spy).to.have.been.nth(i + 1).called.with.exactly(filters[i].function);
+            expect(spy).to.have.been.nth(i + 1).called.with.exactly(filters[i].name, filters[i].function);
+          });
+        });
+
+        describe('when called on input#no-filter', () => {
+          it('calls handleFilterChange with "no-filter" and defaultFilterFunc', () => {
+            const { defaultFilterFunc } = wrapper.vm;
+            const spy = chai.spy.on(wrapper.vm, 'handleFilterChange');
+            const noFilterInput = wrapper.find('input#no-filter');
+            
+            noFilterInput.trigger('change');
+            expect(spy).to.have.been.called.with.exactly('no-filter', defaultFilterFunc);
           });
         });
       });
