@@ -8,6 +8,7 @@
         v-if="filters.length && dataReady"
         :filters="filters"
         :unfiltered-input-name="unfilteredInputName"
+        :compact="compactMode"
         />
       </div>
     </header>
@@ -58,7 +59,8 @@ export default {
       chartData: [],
       activeFilter: vals => vals,
       dataFetched: false,
-      dataFetchedError: null
+      dataFetchedError: null,
+      wrapperWidth: 0
     }
   },
   computed: {
@@ -80,6 +82,9 @@ export default {
     },
     appWidth() {
       return this.$store.state.APP_OFFSET_WIDTH;
+    },
+    compactMode() {
+      return this.wrapperWidth < 450;
     }
   },
   methods: {
@@ -108,6 +113,17 @@ export default {
         this.setDataFetchedError(error);
         throw new Error(`Could not initialize ${this.title || 'chart'}.\n${error}`);
       })
+  },
+  mounted() {
+    this.wrapperWidth = this.calculateWrapperWidth();
+  },
+  updated() {
+    this.wrapperWidth = this.calculateWrapperWidth();
+  },
+  watch: {
+    appWidth() {
+      this.wrapperWidth = this.calculateWrapperWidth();
+    }
   }
 }
 </script>
