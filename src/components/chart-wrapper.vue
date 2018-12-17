@@ -1,6 +1,6 @@
 <template>
   <div class="chart-wrapper">
-    <header>
+    <header :class="{compact: compactMode}">
       <h4 v-if="title">{{title}}</h4>
       <div class="options">
         <overvue-chart-filter

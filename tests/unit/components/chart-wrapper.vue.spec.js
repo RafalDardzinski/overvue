@@ -255,11 +255,62 @@ describe('OvervueChartWrapper (@/components/chart-wrapper.vue)', () => {
           expect(compactMode.call(localThis)).to.be.false;
         });
       });
-
     });
   });
   
-  describe('render logic', () => {    
+  describe('render logic', () => {
+    describe('header', () => {
+      describe('when this.compactMode is true', () => {
+        let wrapper;
+        beforeEach(() => {
+          wrapper = shallowMount(OvervueChartWrapper, {
+            store,
+            localVue,
+            propsData: {
+              title: 'Test Chart',
+              type: 'bar',
+              getData: () => Promise.resolve({ datasets: mockDatasets(), labels: mockLabels() }),
+              organizeData: data => data
+            },
+            computed: {
+              compactMode() {
+                return true;
+              }
+            }
+          });
+        });
+
+        it('has class="compact"', () => {
+          expect(wrapper.find('header').classes()).to.contain('compact');
+        });
+      });
+
+      describe('when this.compactMode is false', () => {
+        let wrapper;
+        beforeEach(() => {
+          wrapper = shallowMount(OvervueChartWrapper, {
+            store,
+            localVue,
+            propsData: {
+              title: 'Test Chart',
+              type: 'bar',
+              getData: () => Promise.resolve({ datasets: mockDatasets(), labels: mockLabels() }),
+              organizeData: data => data
+            },
+            computed: {
+              compactMode() {
+                return false;
+              }
+            }
+          });
+        });
+
+        it('does not have class="compact"', () => {
+          expect(wrapper.find('header').classes()).to.not.contain('compact');
+        });
+      });
+    });
+    
     describe('header>h4', () => {
       let wrapper, headerContent;
       beforeEach(() => {
