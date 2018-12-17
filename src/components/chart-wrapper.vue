@@ -126,8 +126,13 @@ header {
   }
 }
 
+header.compact {
+  h4 {
+    flex: 1;
+  }
 
-
-
-
+  .options {
+    flex: none;
+  }
+}
 </style>
