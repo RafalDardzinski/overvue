@@ -1,7 +1,8 @@
 import chai from 'chai';
 import spies from 'chai-spies';
+import Vuex from 'vuex';
 import { expect } from 'chai';
-import { shallowMount, mount } from '@vue/test-utils';
+import { shallowMount, createLocalVue } from '@vue/test-utils';
 import OvervueChartWrapper from '@/components/chart-wrapper.vue';
 import OvervueChartFilter from '@/components/chart/chart-filter.vue';
 import OvervueChart from '@/components/chart/chart.vue';
@@ -10,7 +11,18 @@ import utils from './chart/utils';
 chai.use(spies);
 const { mockDatasets, mockLabels } = utils;
 
+const store = new Vuex.Store({
+  state: {
+    APP_OFFSET_WIDTH: 480
+  }
+});
+
+const localVue = createLocalVue();
+localVue.use(Vuex);
+
 const mountChartWrapper = (mountFunc = shallowMount) => mountFunc(OvervueChartWrapper, {
+  localVue,
+  store,
   propsData: {
     title: 'Test Chart',
     type: 'bar',
@@ -223,6 +235,28 @@ describe('OvervueChartWrapper (@/components/chart-wrapper.vue)', () => {
         expect(appWidth.call(localThis)).to.equal(APP_OFFSET_WIDTH);
       });
     });
+
+    describe('compactMode', () => {
+      const localThis = {
+        wrapperWidth: null
+      };
+      const { compactMode } = OvervueChartWrapper.computed;
+
+      describe('when this.wrapperWidth < 450', () => {
+        it('returns true', () => {
+          localThis.wrapperWidth = 449;
+          expect(compactMode.call(localThis)).to.be.true;
+        });
+      });
+
+      describe('when this.wrapperWidth >= 450', () => {
+        it('returns false', () => {
+          localThis.wrapperWidth = 450;
+          expect(compactMode.call(localThis)).to.be.false;
+        });
+      });
+
+    });
   });
   
   describe('render logic', () => {    
@@ -257,6 +291,8 @@ describe('OvervueChartWrapper (@/components/chart-wrapper.vue)', () => {
       describe('when !!props.filters.length is true and !!dataReady is true', () => {
         it('is rendered', () => {
           const wrapper = shallowMount(OvervueChartWrapper, {
+            localVue,
+            store,
             propsData: {
               getData: () => Promise.resolve({ datasets: mockDatasets(), labels: mockLabels() }),
               organizeData: data => data,
@@ -266,7 +302,7 @@ describe('OvervueChartWrapper (@/components/chart-wrapper.vue)', () => {
               dataReady() {
                 return true;
               }
-            }
+            },
           });
           
           expect(wrapper.contains(OvervueChartFilter)).to.be.true;
@@ -274,6 +310,8 @@ describe('OvervueChartWrapper (@/components/chart-wrapper.vue)', () => {
 
         it('calls setActiveFilter with payload on @filter:activated event', () => {
           const wrapper = shallowMount(OvervueChartWrapper, {
+            localVue,
+            store,
             propsData: {
               getData: () => Promise.resolve({ datasets: mockDatasets(), labels: mockLabels() }),
               organizeData: data => data,
@@ -298,6 +336,8 @@ describe('OvervueChartWrapper (@/components/chart-wrapper.vue)', () => {
       describe('when !!props.filters.length is false', () => {
         it('is not rendered', () => {
           const wrapper = shallowMount(OvervueChartWrapper, {
+            localVue,
+            store,
             propsData: {
               getData: () => Promise.resolve({ datasets: mockDatasets(), labels: mockLabels() }),
               organizeData: data => data
@@ -316,6 +356,8 @@ describe('OvervueChartWrapper (@/components/chart-wrapper.vue)', () => {
       describe('when !!dataReady is false', () => {
         it('it is not rendered', () => {
           const wrapper = shallowMount(OvervueChartWrapper, {
+            localVue,
+            store,
             propsData: {
               getData: () => Promise.resolve({ datasets: mockDatasets(), labels: mockLabels() }),
               organizeData: data => data,
