@@ -1,5 +1,6 @@
 <template>
   <div class="about">
+    {{$store.state.APP_OFFSET_WIDTH}}
     <div>
       <overvue-chart-wrapper
       :getData="getPosts"
