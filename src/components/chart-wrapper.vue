@@ -77,6 +77,9 @@ export default {
     },
     dataReady() {
       return this.dataFetched && !this.dataFetchedError;
+    },
+    appWidth() {
+      return this.$store.state.APP_OFFSET_WIDTH;
     }
   },
   methods: {

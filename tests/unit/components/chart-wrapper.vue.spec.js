@@ -10,7 +10,6 @@ import utils from './chart/utils';
 chai.use(spies);
 const { mockDatasets, mockLabels } = utils;
 
-
 const mountChartWrapper = () => shallowMount(OvervueChartWrapper, {
   propsData: {
     title: 'Test Chart',
@@ -94,8 +93,8 @@ describe('OvervueChartWrapper (@/components/chart-wrapper.vue)', () => {
             chartData: [1, 2, 3],
             activeFilter: activeFilterMock
           };
-          
           const spy = chai.spy.on(localThis, 'activeFilter');
+          
           expect(filteredData.call(localThis)).to.equal(activeFilterMock(localThis.chartData));
           expect(spy).to.have.been.called.once.with(localThis.chartData);
         });
@@ -108,7 +107,7 @@ describe('OvervueChartWrapper (@/components/chart-wrapper.vue)', () => {
             activeFilter: activeFilterMock
           };
           const spy = chai.spy.on(localThis, 'activeFilter');
-
+          
           expect(filteredData.call(localThis)).to.be.an('array').with.lengthOf(0);
           expect(spy).to.not.have.been.called();
         });
@@ -196,6 +195,20 @@ describe('OvervueChartWrapper (@/components/chart-wrapper.vue)', () => {
           localThis.dataFetchedError = true;
           expect(dataReady.call(localThis)).to.be.false;
         });
+      });
+    });
+
+    describe('appWidth', () => {
+      it('returns $store.state.APP_OFFSET_WIDTH', () => {
+        const APP_OFFSET_WIDTH = 548;
+        const localThis = {
+          $store: {
+            state: { APP_OFFSET_WIDTH }
+          }
+        };
+
+        const { appWidth } = OvervueChartWrapper.computed;
+        expect(appWidth.call(localThis)).to.equal(APP_OFFSET_WIDTH);
       });
     });
   });
