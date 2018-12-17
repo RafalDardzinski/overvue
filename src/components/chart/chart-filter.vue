@@ -1,21 +1,31 @@
 <template>
   <div class="chart-filter">
-    <form class="filters">
+    <button
+    :class="['button-link', 'context-menu-toggler', 
+    {active: contextMenuVisible}]" 
+    v-show="compact" 
+    @click="contextMenuVisible = !contextMenuVisible">
+      <font-awesome-icon icon="filter"></font-awesome-icon>
+    </button>
+    <form
+    v-show="!compact || contextMenuVisible" 
+    :class="['filters', { 'context-menu': contextMenuVisible && compact }]"
+    >
       <template v-for="(filter, index) in filters">
         <input type="radio" 
         name="active-filter" 
         :id="`chart-filter-` + index" 
         :key="'input-' + index"
-        @change="emitActiveFilter(filter.function)"
-        :checked="!!filter.default"
+        @change="handleFilterChange(filter.name, filter.function)"
+        :checked="activeFilter === filter.name"
         />
-        <label class="button-primary filter-button" :for="`chart-filter-` + index" :key="'label-' + index">{{filter.name}}</label>
+        <label :class="['button-primary', 'filter-button']" :for="`chart-filter-` + index" :key="'label-' + index">{{filter.name}}</label>
       </template>
       <input type="radio" 
       name="active-filter" 
       id="no-filter" 
-      @change="emitActiveFilter(defaultFilterFunc)"
-      :checked="!this.defaultFilter.name"
+      @change="handleFilterChange('no-filter', defaultFilterFunc)"
+      :checked="activeFilter === 'no-filter'"
       />
       <label class="button-primary filter-button" for="no-filter">{{unfilteredInputName}}</label>
     </form>
@@ -34,6 +44,16 @@ export default {
     unfilteredInputName: {
       type: String,
       default: 'All'
+    },
+    compact: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data() {
+    return {
+      contextMenuVisible: false,
+      activeFilter: ''
     }
   },
   computed: {
@@ -47,9 +67,15 @@ export default {
     },
     defaultFilterFunc(data) {
       return data;
+    },
+    handleFilterChange(name, func) {
+      this.activeFilter = name;
+      this.emitActiveFilter(func);
+      this.contextMenuVisible = false;
     }
   },
   created() {
+    this.activeFilter = this.defaultFilter.name || 'no-filter'
     this.emitActiveFilter(this.defaultFilter.function)
   },
 }
@@ -58,7 +84,11 @@ export default {
 @import '@/styles/buttons.scss';
 @import '@/config/colors.scss';
 
-.filters {
+div.chart-filter {
+  position: relative;
+}
+
+form.filters {
   padding: 0;
   display: flex;
   border-radius: .25em;
@@ -90,6 +120,27 @@ export default {
 
   &:last-child {
     border-width: 0 0 0 1px;
+  }
+}
+
+form.filters.context-menu {
+  background-color: red;
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  min-width: 100px;
+  border-radius: 0;
+
+  label {
+    border-radius: 0;
+    border: none;
+  }
+}
+
+.context-menu-toggler {
+  &.active {
+    color: $light-accent;
   }
 }
 </style>

@@ -21,7 +21,8 @@ const mountChartFilter = () => shallowMount(OvervueChartFilter, {
       { name: 'filter1', function: () => true },
       { name: 'filter2', function: () => true },
       { name: 'filter3', function: () => true, default: true },
-    ]
+    ],
+    compact: false
   }
 });
 
@@ -139,6 +140,23 @@ describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () =>
       wrapper = mountChartFilter();
     });
 
+    describe('form.filters', () => {
+      describe('when this.compact is false and this.filters.length < 3', () => {
+        it('is displayed', () => {
+          expect(wrapper.find('form.filters').isVisible()).to.be.true;
+        });
+      });
+
+      describe('when this.compact is true', () => {
+        it('is not visible', () => {
+          wrapper.setProps({
+            compact: true
+          });
+          expect(wrapper.find('form.filters').isVisible()).to.be.false;
+        });
+      });
+    });
+
     describe('input[type="radio"]', () => {
       it('is rendered for each element in this.filters', () => {
         const inputs = wrapper.findAll('input[type="radio"]:not(#no-filter)');
@@ -153,16 +171,13 @@ describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () =>
         });
       });
 
-      describe('when filter object contains truthy "default" prop', () => {
-        it('renders with checked attribute', () => {
-          const defaultFilter = wrapper.vm.filters.find(el => el.default);
-          const defaultFilterIndex = wrapper.vm.filters.indexOf(defaultFilter);
-          const defaultFilterInput = wrapper.findAll(`input[type="radio"]:not(#no-filter)`).at(defaultFilterIndex);
-          expect(defaultFilterInput.is(':checked')).to.equal(true);
+      describe('when this.activeFilter equals filter.name', () => {
+        it('is has checked attribute', () => {
+          throw new Error('Not yet implemented');      
         });
       });
 
-      describe('when filter object does not contain truthy "default" prop', () => {
+      describe('when this.activeFilter equals "no-filter"', () => {
         beforeEach(() => {
           wrapper.setProps({
             filters: [
@@ -171,8 +186,11 @@ describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () =>
               { name: 'filter3', function: () => true }
             ]
           });
+          wrapper.setData({
+            activeFilter: 'no-filter'
+          })
         });
-        it('does not render with checked attribute', () => {
+        it('does not have checked attribute', () => {
           const filterInputs = wrapper.findAll(`input[type="radio"]:not(#no-filter)`);
           expect(filterInputs.is(':not(:checked)')).to.be.true;
         });
@@ -183,6 +201,7 @@ describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () =>
       });
 
       describe('on @change', () => {
+        // @TODO: refactor this to include changes in the logic
         it('calls emitActiveFilter() with filter.function attribute', () => {
           const { filters } = wrapper.vm;
           const filterInputs = wrapper.findAll(`input[type="radio"]:not(#no-filter)`);
