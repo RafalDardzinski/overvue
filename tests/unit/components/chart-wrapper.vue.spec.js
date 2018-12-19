@@ -58,7 +58,7 @@ describe('OvervueChartWrapper (@/components/chart-wrapper.vue)', () => {
         });
 
         it('sets this.dataFetched to true', () => {
-          expect(wrapper.vm.dataFetched).to.be.true;
+          expect(wrapper.vm.dataFetched).to.equal(true);
         });
       });
     });
@@ -88,8 +88,8 @@ describe('OvervueChartWrapper (@/components/chart-wrapper.vue)', () => {
 
       it('sets this.dataFetched to true', () => {
         expect(previousDataFetchedVal, `Could not test the function: this.dataFetched was initialized as true`)
-          .to.not.be.true;
-        expect(wrapper.vm.dataFetched).to.be.true;
+          .to.not.equal(true);
+        expect(wrapper.vm.dataFetched).to.equal(true);
       });
     });
 
@@ -203,21 +203,21 @@ describe('OvervueChartWrapper (@/components/chart-wrapper.vue)', () => {
       
       describe('when !!this.dataFetched is true and !!this.dataFetchedError is false', () => {
         it('returns true', () => {
-          expect(dataReady.call(localThis)).to.be.true;
+          expect(dataReady.call(localThis)).to.equal(true);
         });
       });
       
       describe('when !!this.dataFetched is false', () => {
         it('returns false', () => {
           localThis.dataFetched = false;
-          expect(dataReady.call(localThis)).to.be.false;
+          expect(dataReady.call(localThis)).to.equal(false);
         });
       });
 
       describe('when !!this.dataFetchedError is true', () => {
         it('returns false', () => {
           localThis.dataFetchedError = true;
-          expect(dataReady.call(localThis)).to.be.false;
+          expect(dataReady.call(localThis)).to.equal(false);
         });
       });
     });
@@ -245,14 +245,14 @@ describe('OvervueChartWrapper (@/components/chart-wrapper.vue)', () => {
       describe('when this.wrapperWidth < 450', () => {
         it('returns true', () => {
           localThis.wrapperWidth = 449;
-          expect(compactMode.call(localThis)).to.be.true;
+          expect(compactMode.call(localThis)).to.equal(true);
         });
       });
 
       describe('when this.wrapperWidth >= 450', () => {
         it('returns false', () => {
           localThis.wrapperWidth = 450;
-          expect(compactMode.call(localThis)).to.be.false;
+          expect(compactMode.call(localThis)).to.equal(false);
         });
       });
     });
@@ -333,7 +333,7 @@ describe('OvervueChartWrapper (@/components/chart-wrapper.vue)', () => {
           wrapper.setProps({
             title: undefined
           });
-          expect(wrapper.contains('header>h3')).to.be.false;
+          expect(wrapper.contains('header>h3')).to.equal(false);
         });
       });
     });
@@ -356,7 +356,7 @@ describe('OvervueChartWrapper (@/components/chart-wrapper.vue)', () => {
             },
           });
           
-          expect(wrapper.contains(OvervueChartFilter)).to.be.true;
+          expect(wrapper.contains(OvervueChartFilter)).to.equal(true);
         });
 
         it('calls setActiveFilter with payload on @filter:activated event', () => {
@@ -400,7 +400,7 @@ describe('OvervueChartWrapper (@/components/chart-wrapper.vue)', () => {
             }
           });
 
-          expect(wrapper.contains(OvervueChartFilter)).to.be.false;
+          expect(wrapper.contains(OvervueChartFilter)).to.equal(false);
         });
       });
 
@@ -421,7 +421,7 @@ describe('OvervueChartWrapper (@/components/chart-wrapper.vue)', () => {
             }
           });
 
-          expect(wrapper.contains(OvervueChartFilter)).to.be.false;
+          expect(wrapper.contains(OvervueChartFilter)).to.equal(false);
         });
       });
     });
@@ -440,11 +440,11 @@ describe('OvervueChartWrapper (@/components/chart-wrapper.vue)', () => {
         });
 
         it('is rendered', () => {
-          expect(wrapper.contains('div.chart')).to.be.true;
+          expect(wrapper.contains('div.chart')).to.equal(true);
         });
 
         it('contains OvervueChart', () => {
-          expect(wrapper.find('div.chart').contains(OvervueChart)).to.be.true;
+          expect(wrapper.find('div.chart').contains(OvervueChart)).to.equal(true);
         });
       });
 
@@ -454,7 +454,7 @@ describe('OvervueChartWrapper (@/components/chart-wrapper.vue)', () => {
             dataFetchedError: true
           });
 
-          expect(wrapper.contains('div.chart')).to.be.false;
+          expect(wrapper.contains('div.chart')).to.equal(false);
         });
       });
     });

@@ -96,11 +96,11 @@ describe('OvervueChart (@/components/chart/chart.vue)', () => {
     describe('when dataFetched property is false', () => {
       beforeEach(() => wrapper.setProps({dataFetched: false}));
       it('renders LoadingIndicator', () => {
-        expect(wrapper.contains(LoadingIndicator)).to.be.true;
+        expect(wrapper.contains(LoadingIndicator)).to.equal(true);
       });
   
       it('keeps canvas.overvue-chart-canvas hidden', () => {
-        expect(wrapper.find('canvas.overvue-chart-canvas').isVisible()).to.be.false;
+        expect(wrapper.find('canvas.overvue-chart-canvas').isVisible()).to.equal(false);
       });
     });
   
@@ -112,11 +112,11 @@ describe('OvervueChart (@/components/chart/chart.vue)', () => {
       });
 
       it('sets canvas.overvue-chart-canvas to be visible', () => {
-        expect(wrapper.find('canvas.overvue-chart-canvas').isVisible()).to.be.true;
+        expect(wrapper.find('canvas.overvue-chart-canvas').isVisible()).to.equal(true);
       });
   
       it('removes LoadingIndicator from DOM', () => {
-        expect(wrapper.contains(LoadingIndicator)).to.be.false;
+        expect(wrapper.contains(LoadingIndicator)).to.equal(false);
       });
     });
   });

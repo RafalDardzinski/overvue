@@ -27,7 +27,6 @@ const mountChartFilter = () => shallowMount(OvervueChartFilter, {
 
 /**
  * @TODO: button tests with click event
- * @TODO: methods: handleFilterChange()
  * @TODO: class tests
  */
 
@@ -41,7 +40,7 @@ describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () =>
           { name: 'filter1', function: () => true, default: true },
           { name: 'filter2' }
         ];
-        expect(validator(props)).to.be.false;
+        expect(validator(props)).to.equal(false);
       });
 
       it(`validator returns false if some elements "function" property is not of function type`, () => {
@@ -49,7 +48,7 @@ describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () =>
           { name: 'filter1', function: () => true, default: true },
           { name: 'filter2', function: true }
         ];
-        expect(validator(props)).to.be.false;
+        expect(validator(props)).to.equal(false);
       });
 
       it('validator returns false if some elements do not have "name" property', () => {
@@ -57,7 +56,7 @@ describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () =>
           { name: 'filter1', function: () => true, default: true },
           { function: () => true }
         ];
-        expect(validator(props)).to.be.false;
+        expect(validator(props)).to.equal(false);
       });
     });
   });
@@ -177,7 +176,7 @@ describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () =>
     describe('form.filters', () => {
       describe('when this.compact is false and this.filters.length < 3', () => {
         it('is displayed', () => {
-          expect(wrapper.find('form.filters').isVisible()).to.be.true;
+          expect(wrapper.find('form.filters').isVisible()).to.equal(true);
         });
       });
 
@@ -186,7 +185,7 @@ describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () =>
           wrapper.setProps({
             compact: true
           });
-          expect(wrapper.find('form.filters').isVisible()).to.be.false;
+          expect(wrapper.find('form.filters').isVisible()).to.equal(false);
         });
       });
     });
@@ -222,7 +221,7 @@ describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () =>
           });
 
           const input = wrapper.findAll('input[type="radio"]:not(#no-filter)').at(testIndex);
-          expect(input.is(':checked')).to.be.true;
+          expect(input.is(':checked')).to.equal(true);
         });
       });
 
@@ -241,11 +240,11 @@ describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () =>
         });
         it('does not have checked attribute', () => {
           const filterInputs = wrapper.findAll(`input[type="radio"]:not(#no-filter)`);
-          expect(filterInputs.is(':not(:checked)')).to.be.true;
+          expect(filterInputs.is(':not(:checked)')).to.equal(true);
         });
 
         it('renders input[type="radio"]#no-filter as checked', () => {
-          expect(wrapper.find('input[type="radio"]#no-filter').is(':checked')).to.be.true;
+          expect(wrapper.find('input[type="radio"]#no-filter').is(':checked')).to.equal(true);
         });
       });
 
@@ -306,7 +305,7 @@ describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () =>
 
     describe('input#no-filter', () => {
       it('is always rendered', () => {
-        expect(wrapper.contains('input[type="radio"]#no-filter')).to.be.true;
+        expect(wrapper.contains('input[type="radio"]#no-filter')).to.equal(true);
       });
 
       it('has checked attribute when defaultFilter.name is falsy', () => {
@@ -317,7 +316,7 @@ describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () =>
           }
         });
         const noFilterInput = wrapper.find('input[type="radio"]#no-filter');
-        expect(noFilterInput.is(':checked')).to.be.true;
+        expect(noFilterInput.is(':checked')).to.equal(true);
       });
 
       describe('on @change', () => {
@@ -332,7 +331,7 @@ describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () =>
 
     describe('label[for="no-filter"]', () => {
       it('is always rendered', () => {
-        expect(wrapper.contains('label[for="no-filter"]')).to.be.true;
+        expect(wrapper.contains('label[for="no-filter"]')).to.equal(true);
       });
       
       it('has text content that equals unfilteredInputName property', () => {
