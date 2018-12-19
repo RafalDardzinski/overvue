@@ -137,6 +137,35 @@ describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () =>
         expect(wrapper.vm.defaultFilterFunc(someData)).equals(someData);
       });
     });
+
+    describe('handleFilterChange(name, func)', () => {
+      it('sets this.activeFilter to value of the "name" argument', () => {
+        const name = 'some name';
+        expect(wrapper.vm.activeFilter).to.not.equal(name, `activeFilterName is already set to the testing value: ${name}`);
+        wrapper.vm.handleFilterChange.call(wrapper.vm, name);
+        expect(wrapper.vm.activeFilter).to.equal(name);
+      });
+
+      it('calls this.emitActiveFilter() with func parameter as argument', () => {
+        const emitActiveFilterStub = chai.spy(() => true);
+        const func = () => true;
+        wrapper.setMethods({
+          handleFilterChange: emitActiveFilterStub
+        });
+
+        wrapper.vm.handleFilterChange.call(wrapper.vm, 'somename', func);
+        expect(emitActiveFilterStub).to.have.been.called.with(func);
+      });
+
+      it('sets this.contextMenuVisible to false', () => {
+        wrapper.setData({
+          contextMenuVisible: true
+        });
+
+        wrapper.vm.handleFilterChange.call(wrapper.vm);
+        expect(wrapper.vm.contextMenuVisible).to.equal(false);
+      });
+    });
   });
 
   describe('render logic', () => {
