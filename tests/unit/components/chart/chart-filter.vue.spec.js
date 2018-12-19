@@ -1,7 +1,7 @@
 import chai from 'chai';
 import spies from 'chai-spies';
 import { expect } from 'chai';
-import { shallowMount, WrapperArray, mount, createLocalVue } from '@vue/test-utils';
+import { shallowMount, WrapperArray, createLocalVue } from '@vue/test-utils';
 import OvervueChartFilter from '@/components/chart/chart-filter.vue';
 import FontAwesomeIcon from '@/config/font-awesome';
 
@@ -25,10 +25,6 @@ const mountChartFilter = (func = shallowMount) => func(OvervueChartFilter, {
     compact: false
   }
 });
-
-/**
- * @TODO: class tests
- */
 
 describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () => {
   describe('properties', () => {
