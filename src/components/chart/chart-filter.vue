@@ -9,7 +9,7 @@
     </button>
     <form
     v-show="!compact || contextMenuVisible" 
-    :class="['filters', { 'context-menu': contextMenuVisible && compact }]"
+    :class="['filters', { 'context-menu': compact && contextMenuVisible }]"
     >
       <template v-for="(filter, index) in filters">
         <input type="radio" 

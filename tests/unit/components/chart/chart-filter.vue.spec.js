@@ -27,7 +27,6 @@ const mountChartFilter = (func = shallowMount) => func(OvervueChartFilter, {
 });
 
 /**
- * @TODO: button tests with click event
  * @TODO: class tests
  */
 
@@ -254,18 +253,43 @@ describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () =>
     });
 
     describe('form.filters', () => {
-      describe('when this.compact is false and this.filters.length < 3', () => {
-        it('is displayed', () => {
+      describe('when !!this.compact is false', () => {
+        beforeEach(() => wrapper.setProps({ compact: false }));
+
+        it('is visible', () => {
           expect(wrapper.find('form.filters').isVisible()).to.equal(true);
+        });
+
+        it('does not have .context-menu class', () => {
+          expect(wrapper.find('form.filters').classes()).to.not.include('context-menu');
         });
       });
 
-      describe('when this.compact is true', () => {
-        it('is not visible', () => {
-          wrapper.setProps({
-            compact: true
+      describe('when !!this.compact is true', () => {
+        beforeEach(() => wrapper.setProps({ compact: true }));
+        
+        describe('when !!this.contextMenuVisible is true', () => {
+          beforeEach(() => wrapper.setData({ contextMenuVisible: true }));
+
+          it('is visible', () => {
+            expect(wrapper.find('form.filters').isVisible()).to.equal(true);
           });
-          expect(wrapper.find('form.filters').isVisible()).to.equal(false);
+
+          it('has .context-menu class', () => {
+            expect(wrapper.find('form.filters').classes()).to.include('context-menu');
+          });
+        });
+
+        describe('when !!this.contextMenuVisible is false', () => {
+          beforeEach(() => wrapper.setData({ contextMenuVisible: false }));
+
+          it('does not have .context-menu class', () => {
+            expect(wrapper.find('form.filters').classes()).to.not.include('context-menu');
+          });
+
+          it('is not visible', () => {
+            expect(wrapper.find('form.filters').isVisible()).to.equal(false);
+          });
         });
       });
     });
