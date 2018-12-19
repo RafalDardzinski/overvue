@@ -1,8 +1,9 @@
 import chai from 'chai';
 import spies from 'chai-spies';
 import { expect } from 'chai';
-import { shallowMount, WrapperArray } from '@vue/test-utils';
+import { shallowMount, WrapperArray, mount, createLocalVue } from '@vue/test-utils';
 import OvervueChartFilter from '@/components/chart/chart-filter.vue';
+import FontAwesomeIcon from '@/config/font-awesome';
 
 chai.use(spies);
 
@@ -14,7 +15,7 @@ WrapperArray.prototype.forEach = function (func) {
 };
 
 
-const mountChartFilter = () => shallowMount(OvervueChartFilter, {
+const mountChartFilter = (func = shallowMount) => func(OvervueChartFilter, {
   propsData: {
     filters: [
       { name: 'filter1', function: () => true },
@@ -171,6 +172,85 @@ describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () =>
     let wrapper;
     beforeEach(() => {
       wrapper = mountChartFilter();
+    });
+
+    describe('button.button-link.context-menu-toggler', () => {
+      const btnSelector = 'button.button-link.context-menu-toggler';
+      let button;
+      beforeEach(() => {
+        button = wrapper.find(btnSelector);
+      });
+
+      it('is rendered', () => {
+        expect(button.exists()).to.equal(true);
+      });
+
+      it('contains FontAwesomeIcon component with icon="filter"', () => {
+        const localVue = createLocalVue();
+        localVue.component('font-awesome-icon', FontAwesomeIcon);
+        wrapper = shallowMount(OvervueChartFilter, {
+          localVue,
+          propsData: {
+            filters: [
+              { name: 'filter1', function: () => true },
+              { name: 'filter2', function: () => true },
+              { name: 'filter3', function: () => true, default: true },
+            ],
+            compact: false
+          }
+        });
+        button = wrapper.find(btnSelector);
+        expect(button.contains(FontAwesomeIcon)).to.equal(true);
+
+      });
+      
+      describe('when !!this.contextMenuVisible is true', () => {
+        it('has .active class', () => {
+          wrapper.setData({
+            contextMenuVisible: true
+          });
+          button = wrapper.find(btnSelector);
+          expect(button.classes()).to.include('active');
+        });
+      });
+
+      describe('when !!this.contextMenuVisible is false', () => {
+        it('does not have .active class', () => {
+          wrapper.setData({
+            contextMenuVisible: false
+          });
+          button = wrapper.find(btnSelector);
+          expect(button.classes()).to.not.include('active');
+        });
+      });
+      
+      describe('when !!this.compact is true', () => {
+        it('is visible', () => {
+          wrapper.setProps({
+            compact: true
+          });
+          button = wrapper.find(btnSelector);
+          expect(button.isVisible()).to.equal(true);
+        });
+      });
+
+      describe('when !!this.compact is false', () => {
+        it('is not visible', () => {
+          wrapper.setProps({
+            compact: false
+          });
+          button = wrapper.find(btnSelector);
+          expect(button.isVisible()).to.equal(false);
+        });
+      });
+
+      describe('on @click', () => {
+        it('sets this.contextMenuVisible to !this.contextMenuVisible', () => {
+          const contextMenuVisibleOriginalVal = wrapper.vm.contextMenuVisible;
+          button.trigger('click');
+          expect(wrapper.vm.contextMenuVisible).to.equal(!contextMenuVisibleOriginalVal);
+        });
+      });
     });
 
     describe('form.filters', () => {
