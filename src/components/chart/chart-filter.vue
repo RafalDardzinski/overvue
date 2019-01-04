@@ -124,7 +124,6 @@ form.filters {
 }
 
 form.filters.context-menu {
-  background-color: red;
   display: block;
   position: absolute;
   right: 0;
