@@ -29,7 +29,8 @@ export default {
       validator: (value) => ['bar', 'line'].includes(value.toLowerCase())
     },
     datasets: Array,
-    labels: Array
+    labels: Array,
+    appWidth: Number
   },
   data() {
     return {
@@ -60,6 +61,18 @@ export default {
       this.chart.setLabels(this.labels);
       this.chart.update();
       return this.chart;
+    },
+    resizeCanvas(canvas) {
+      return new Promise((resolve, reject) => {
+        const displayVal = this.setElementDisplayVal(canvas, 'none');
+        canvas.style.width = canvas.parentNode.offsetWidth + 'px';
+        resolve({ canvas, displayVal });
+      });
+    },
+    setElementDisplayVal(el, val) {
+      const oldVal = el.style.display;
+      el.style.display = val;
+      return oldVal;
     }
   },
   watch: {
@@ -71,6 +84,12 @@ export default {
     },
     chartData() {
       this.updateChartInstance();
+    },
+    appWidth() {
+      this.resizeCanvas(this.chart.ref.canvas)
+        .then(({ canvas, displayVal }) => {
+          this.setElementDisplayVal(canvas, displayVal);
+        });
     }
   },
   mounted() {

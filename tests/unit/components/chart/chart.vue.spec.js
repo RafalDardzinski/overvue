@@ -88,6 +88,68 @@ describe('OvervueChart (@/components/chart/chart.vue)', () => {
         expect(wrapper.vm.updateChartInstance()).to.equal(wrapper.vm.chart);
       });
     });
+
+    describe('setElementDisplayVal(el, val)', () => {
+      const { setElementDisplayVal } = OvervueChart.methods;
+      let elMock, styleVal;
+      beforeEach(() => {
+        elMock = { style: { display: 'block' } };
+        styleVal = 'none';
+      });
+
+      it('sets el.style.display value to val', () => {
+        expect(elMock.style.display).to.not.equal(styleVal);
+        setElementDisplayVal(elMock, styleVal);
+        expect(elMock.style.display).to.equal(styleVal);
+      });
+
+      it(`returns element's original display style val`, () => {
+        expect(elMock.style.display).to.not.equal(styleVal);
+        const oldStyle = elMock.style.display;
+        expect(setElementDisplayVal(elMock, styleVal)).to.equal(oldStyle);
+      });
+
+
+    });
+
+    describe('resizeCanvas(canvas)', () => {
+      const { resizeCanvas } = OvervueChart.methods;
+      let canvasMock, localThis;
+      beforeEach(() => {
+        canvasMock = {
+          style: { display: 'mockVal' },
+          parentNode: { offsetWidth: 400 }
+        };
+        localThis = {
+          setElementDisplayVal: () => 'mockVal'
+        };
+      });
+
+      it('sets canvas.style.width to value in canvas.parentNode.offsetWidth in px', done => {
+        expect(canvasMock.style.width).to.not.equal(canvasMock.parentNode.offsetWidth);
+        resizeCanvas.call(localThis, canvasMock).then(() => {
+          expect(canvasMock.style.width).to.equal(canvasMock.parentNode.offsetWidth + 'px');
+          done();
+        }).catch(error => done(error));
+      });
+
+      it('resolves an object with canvas reference in canvas property', done => {
+        resizeCanvas.call(localThis, canvasMock).then((result) => {
+          expect(result.canvas).to.equal(canvasMock);
+          done();
+        }).catch(error => done(error));
+      });
+
+      it(`resolves with result of this.setElementDisplayVal(canvas, 'none') in displayVal property`, done => {
+        const spy = chai.spy.on(localThis, 'setElementDisplayVal');
+
+        resizeCanvas.call(localThis, canvasMock).then((result) => {
+          expect(spy).to.have.been.called.once.with.exactly(canvasMock, 'none');
+          expect(result.displayVal).to.equal(localThis.setElementDisplayVal(canvasMock, 'none'))
+          done();
+        }).catch(error => done(error));
+      });
+    });
   });
 
   describe('render logic:', () => {

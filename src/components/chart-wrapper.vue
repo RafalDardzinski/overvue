@@ -18,6 +18,7 @@
       :datasets="datasets"
       :labels="labels"
       :data-fetched="dataReady"
+      :app-width="appWidth"
       ></overvue-chart>
     </div>
     <div v-else>
@@ -135,7 +136,6 @@ export default {
 header {
   padding: 0 .5rem;
   display: flex;
-  width: 100%;
   box-sizing: border-box;
   align-items: center;
 
