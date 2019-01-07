@@ -153,7 +153,7 @@ describe('App.vue (@/App.vue)', () => {
   describe('render logic', () => {
     let wrapper, store;
     beforeEach(() => {
-      store = new Vuex.Store()
+      store = new Vuex.Store();
       wrapper = mountApp(shallowMount, {
         localVue,
         store

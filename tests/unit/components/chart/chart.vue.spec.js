@@ -145,7 +145,7 @@ describe('OvervueChart (@/components/chart/chart.vue)', () => {
 
         resizeCanvas.call(localThis, canvasMock).then((result) => {
           expect(spy).to.have.been.called.once.with.exactly(canvasMock, 'none');
-          expect(result.displayVal).to.equal(localThis.setElementDisplayVal(canvasMock, 'none'))
+          expect(result.displayVal).to.equal(localThis.setElementDisplayVal(canvasMock, 'none'));
           done();
         }).catch(error => done(error));
       });
