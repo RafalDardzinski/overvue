@@ -1,7 +1,7 @@
 <template>
   <div class="buttons">
     <section>
-      <header><h4>{{ usr }}</h4></header>
+      <header>Enabled</header>
       <button class="button-primary">Primary</button>
       <button class="button-secondary">Secondary</button>
       <button class="button-success">Success</button>
