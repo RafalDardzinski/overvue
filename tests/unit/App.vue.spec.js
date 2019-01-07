@@ -4,11 +4,15 @@ import Vuex from 'vuex';
 import { expect } from 'chai';
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import App from '@/App.vue';
+import Layout from '@/config/layout';
 
 chai.use(spies);
 
+
 const localVue = createLocalVue();
 localVue.use(Vuex);
+
+const mountApp = (mountFunc = shallowMount, config = {}) => mountFunc(App, config);
 
 describe('App.vue (@/App.vue)', () => {
   describe('methods', () => {
@@ -144,5 +148,24 @@ describe('App.vue (@/App.vue)', () => {
         });
       });
     });
-  });  
+  });
+  
+  describe('render logic', () => {
+    let wrapper, store;
+    beforeEach(() => {
+      store = new Vuex.Store()
+      wrapper = mountApp(shallowMount, {
+        localVue,
+        store
+      });
+    });
+
+    it('is rendered as div#app', () => {
+      expect(wrapper.is('div#app')).to.be.true;
+    });
+
+    it('contains layout imported from @/config/layout', () => {
+      expect(wrapper.contains(Layout)).to.be.true;
+    });
+  });
 });
