@@ -52,6 +52,10 @@ export default {
 @import '@/styles/typography.scss';
 @import '@/styles/buttons.scss';
 
+body {
+  margin: 0;
+}
+
 #app {
   color: #2c3e50;
 }

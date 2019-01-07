@@ -27,7 +27,7 @@ const routes = [
     path: '/buttons',
     name: 'buttons',
     meta: {
-      navigationName: 'Buttons'
+      navigationName: 'Buttons & Icons'
     },
     component: Buttons
   },

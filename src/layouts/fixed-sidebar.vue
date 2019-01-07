@@ -2,18 +2,15 @@
   <div class="layout" id="fixed-sidebar" ref="layout">
     <section class="content">
       <aside class="sidebar">
-        <header class="logo">
-          logo goes here
-        </header>
         <overvue-navigation-wrapper></overvue-navigation-wrapper>
       </aside>
       <div class="view">
         <router-view/>
+          <footer>
+            I'm a footer
+          </footer>
       </div>
     </section>
-    <footer>
-      I'm a footer
-    </footer>
   </div>
 </template>
 <script>
@@ -29,21 +26,31 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 100vh;
   box-sizing: border-box;
 }
 
 .content {
   display: flex;
+  box-sizing: border-box;
+  flex: 1;
+  min-height: 100vh;
 }
 
 .sidebar {
-  min-width: 250px;
-
+  min-width: 200px;
+  box-sizing: border-box;
+  padding: .5rem;
+  position: fixed;
+  height: 100vh;
 }
 
 .view {
+  padding: .5rem;
+  margin-left: 250px;
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 
