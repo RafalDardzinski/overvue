@@ -38,7 +38,7 @@ const routes = [
       navigationName: 'Sales and Marketing'
     },
     component: SalesAndMarketing
-  }
+  },
 ];
 
 export default routes;
