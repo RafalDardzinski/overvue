@@ -1,12 +1,11 @@
 <template>
-  <ul class="navigation-list" :style="[ { width: sidebarWidth + 17 + 'px' } ]">
+  <ul class="navigation-list" :style="[ { width: navigationListWidth } ]">
     <li v-for="(routeRecord, index) in filteredRoutes" :key="index">
       <router-link :to="routeRecord.path" :class="{ home: routeRecord.path === '/' }">
         <div v-if="routeRecord.path === '/'">
           <overvue-logo logo-width="50%" font-size="1.2rem"></overvue-logo>
         </div>
-        
-        <span v-else>{{ routeRecord.meta.navigationName }}</span>
+        <div v-else>{{ routeRecord.meta.navigationName }}</div>
       </router-link>
     </li>
   </ul>  
@@ -28,6 +27,9 @@ export default {
     filteredRoutes() {
       return this.filterRoutes(this.routes);
     },
+    navigationListWidth() {
+      if (this.sidebarWidth) return `${this.sidebarWidth + 17}px`;
+    }
   },
   methods: {
     filterRoutes(routesArray = [{}]) {
