@@ -68,8 +68,8 @@ a {
 a:not(.home) {
   color: rgba($light-shades, .7);
   font-weight: normal;
-  transition: color .2s;
   border-left: 2px solid rgba($light-accent, 0);
+  transition: border-color .2s, color .2s;
 
   &:hover {
     color: $light-shades;
