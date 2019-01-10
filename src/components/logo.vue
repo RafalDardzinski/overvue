@@ -1,7 +1,7 @@
 <template>
 <div class="app-logo">
-  <div class="svg-container">
-    <svg :class="['app-logo', { link: isLink, active: isActive }]" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512.173 512.173" style="enable-background:new 0 0 512.173 512.173;" xml:space="preserve">
+  <div class="svg-container" :style="[{ width: logoWidth, 'padding-top': logoWidth }]">
+    <svg class="app-logo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512.173 512.173" style="enable-background:new 0 0 512.173 512.173;" xml:space="preserve">
       <g transform="translate(-1)">
         <g>
           <g>
@@ -20,18 +20,15 @@
       </g>
     </svg>
   </div>
-  <div class="app-title" :style="[ { color: primaryColor} ]">Overvue</div>
+  <div class="app-title" :style="[ { color: primaryColor, 'font-size': fontSize } ]">Overvue</div>
 </div>
 </template>
 <script>
 import colors from '@/config/colors.scss';
 export default {
   props: {
-    isLink: {
-      type: Boolean,
-      default: false,
-    },
-    isActive: Boolean,
+    logoWidth: String,
+    fontSize: String
   },
   data() {
     return {
@@ -48,21 +45,31 @@ export default {
   width: 100%;
   margin: 0;
   padding: 0;
-  font-family: 'Helvetica', 'Arial Narrow', Arial, sans-serif
+  font-family: 'Helvetica', 'Arial Narrow', Arial, sans-serif;
+  position: relative;
 }
 
 .svg-container {
   text-align: center;
+  /* the following rules are fixing problems with svg height on IE11 */
+  width: 100%;
+  height: 0;
+  padding-top: 100%;
+  position: relative;
+  text-align: center;
+  margin: 0 auto;
+
   svg {
-    width: 50%;
-    
+    position: absolute;
+    top: 0;
+    left: 0
   }
+
+  /* IE11 fix ends here */
 }
 
 .app-title {
   padding: 0;
   text-align: center;
-  // background-color: red;
-  // font-weight: bold;
 }
 </style>

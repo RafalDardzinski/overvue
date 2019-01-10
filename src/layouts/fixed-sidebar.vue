@@ -33,7 +33,6 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   box-sizing: border-box;
-  
 }
 
 .content {

@@ -3,7 +3,7 @@
     <li v-for="(routeRecord, index) in filteredRoutes" :key="index">
       <router-link :to="routeRecord.path" :class="{ home: routeRecord.path === '/' }">
         <div v-if="routeRecord.path === '/'">
-          <overvue-logo width="60%" height="auto" :isLink="true"></overvue-logo>
+          <overvue-logo logo-width="50%" font-size="1.2rem"></overvue-logo>
         </div>
         
         <span v-else>{{ routeRecord.meta.navigationName }}</span>
