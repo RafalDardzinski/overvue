@@ -1,5 +1,3 @@
-add: navigation unit tests
 add: navigation-wrapper unit tests
-add: transition on border color for navigation items
 add: responsive toggle button for navigation
 refactor styles and code for navigation, navigation-wrapper and fixed-sidbar layout

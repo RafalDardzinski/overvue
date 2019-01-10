@@ -27,10 +27,25 @@
     <article>
       <header><h2>Icons</h2></header>
       <section>
-        <h3>Overvue Logo</h3>
-        <overvue-logo width="4rem"></overvue-logo>
-        <div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+        <div class="icons">
+          <figure>
+            <header>Overvue Logo:</header>
+            <overvue-logo logo-width="4rem" :logo-fill="colors.primary"></overvue-logo>
+          </figure>
+          <figure>
+            <header>Filter:</header>
+            <font-awesome-icon icon="filter"></font-awesome-icon>
+          </figure>
+        </div>
       </section>
+    </article>
+    <article>
+      <header>
+        <h2>Credits</h2>
+      </header>
+      <p>
+        Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
+      </p>
     </article>
   </div>
 </template>
@@ -39,34 +54,61 @@
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
 import OvervueLogo from '@/components/logo.vue';
+import colors from '@/config/colors.scss';
 export default {
   name: 'home',
   components: {
     HelloWorld,
     'overvue-logo': OvervueLogo
+  },
+  data() {
+    return {
+      colors
+    }
   }
 }
 </script>
 <style lang="scss" scoped>
+@import '@/config/colors.scss';
 .buttons-and-icons {
   margin: 1rem 0;
 
-  & button {
+  button {
     margin: .5rem;
     width: 100px;
   }
 
-  & h4 {
+  h4 {
     margin: 0 .5rem;
+  }
+
+  .icons {
+    display: flex;
+    color: $primary;
   }
 
 }
 
-svg {
-  transition: 1s;
-}
+figure {
+  display: block;
+  margin: 0 .5rem;
+  padding: 0;
 
-svg:hover * {
-  fill: green;
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  font-size: 4rem;
+
+  header {
+    margin: .5rem;
+    font-weight: bold;
+    color: $info;
+    font-size: 1.2rem;
+  }
 }
 </style>
