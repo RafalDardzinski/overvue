@@ -4,7 +4,7 @@
       <aside class="sidebar" :style="[ { width: sidebarWidth + 'px' } ]">
         <overvue-navigation-wrapper :sidebar-width="sidebarWidth"></overvue-navigation-wrapper>
       </aside>
-      <div class="view">
+      <div class="view" :style="[ { 'margin-left': sidebarWidth + 'px' } ]">
         <router-view/>
           <footer>
             I'm a footer
@@ -59,7 +59,6 @@ export default {
 
 .view {
   padding: .5rem;
-  margin-left: 250px;
   flex: 1;
   display: flex;
   flex-direction: column;
