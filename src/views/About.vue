@@ -74,7 +74,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .charts {
-  // display: flex;
+  max-width: 600px;
 
   &>* {
     flex: 1;
