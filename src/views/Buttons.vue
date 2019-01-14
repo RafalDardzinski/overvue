@@ -4,7 +4,7 @@
     <article>
       <header><h2>Buttons</h2></header>
       <section>
-        <header><h3>Enabled</h3></header>
+        <header>Enabled</header>
         <button class="button-primary">Primary</button>
         <button class="button-secondary">Secondary</button>
         <button class="button-success">Success</button>
@@ -14,7 +14,7 @@
         <button class="button-link">Link</button>
       </section>
       <section>
-        <header><h3>Disabled</h3></header>
+        <header>Disabled</header>
         <button class="button-primary button--disabled">Primary</button>
         <button class="button-secondary button--disabled">Secondary</button>
         <button class="button-success button--disabled">Success</button>
