@@ -36,6 +36,7 @@ $transparency: .8;
   info: $info;
   warning: $warning;
   danger: $danger;
+  success: $success;
   mono1: rgba($mono1, 1);
   mono2: rgba($mono2, 1);
   mono3: $mono3;
@@ -48,4 +49,12 @@ $transparency: .8;
   chartMono4: rgba($mono4, $transparency);
   chartMono5: rgba($mono5, $transparency);
   chartTooltip: rgba($info, .8);
+
+  chartPrimary: rgba($primary, $transparency);
+  chartInfo: rgba($info, $transparency);
+  chartSuccess: rgba($success, $transparency);
+  chartLightAccent: rgba($light-accent, $transparency);
+  chartWarning: rgba($warning, $transparency);
+  chartDanger: rgba($danger, $transparency);
+  chartDarkAccent: rgba($dark-accent, $transparency);
 }

@@ -292,15 +292,17 @@ describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () =>
 
     describe('input[type="radio"]', () => {
       it('is rendered for each element in this.filters', () => {
-        const inputs = wrapper.findAll('input[type="radio"]:not(#no-filter)');
+        const uid = wrapper.vm._uid;
+        const inputs = wrapper.findAll(`input[type="radio"]:not(#no-filter_${uid})`);
         expect(inputs.length).to.equal(wrapper.vm.filters.length);
       });
 
-      it(`has id attribute that equals "chart-filter-" + rendering index`, () => {
-        const inputs = wrapper.findAll('input[type="radio"]:not(#no-filter)');
+      it(`has id attribute that equals "chart-filter-" + uid + _(rendering index)`, () => {
+        const uid = wrapper.vm._uid;
+        const inputs = wrapper.findAll(`input[type="radio"]:not(#no-filter_${uid})`);
 
         inputs.forEach((element, index) => {
-          expect(element.attributes().id).to.equal(`chart-filter-${index}`);
+          expect(element.attributes().id).to.equal(`chart-filter-${uid}_${index}`);
         });
       });
 
@@ -339,19 +341,21 @@ describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () =>
           });
         });
         it('does not have checked attribute', () => {
-          const filterInputs = wrapper.findAll(`input[type="radio"]:not(#no-filter)`);
+          const uid = wrapper.vm._uid;
+          const filterInputs = wrapper.findAll(`input[type="radio"]:not(#no-filter_${uid})`);
           expect(filterInputs.is(':not(:checked)')).to.equal(true);
         });
 
-        it('renders input[type="radio"]#no-filter as checked', () => {
-          expect(wrapper.find('input[type="radio"]#no-filter').is(':checked')).to.equal(true);
+        it('renders input[type="radio"]#no-filter_uid as checked', () => {
+          const uid = wrapper.vm._uid;
+          expect(wrapper.find(`input[type="radio"]#no-filter_${uid}`).is(':checked')).to.equal(true);
         });
       });
 
       describe('on @change', () => {
         it('calls handleFilterChange() with filter.name and filter.function arguments', () => {
-          const { filters } = wrapper.vm;
-          const filterInputs = wrapper.findAll(`input[type="radio"]:not(#no-filter)`);
+          const { filters, _uid } = wrapper.vm;
+          const filterInputs = wrapper.findAll(`input[type="radio"]:not(#no-filter_${_uid})`);
           const spy = chai.spy.on(wrapper.vm, 'handleFilterChange');
           
           filterInputs.forEach((input, i) => {
@@ -362,9 +366,9 @@ describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () =>
 
         describe('when called on input#no-filter', () => {
           it('calls handleFilterChange with "no-filter" and defaultFilterFunc', () => {
-            const { defaultFilterFunc } = wrapper.vm;
+            const { defaultFilterFunc, _uid } = wrapper.vm;
             const spy = chai.spy.on(wrapper.vm, 'handleFilterChange');
-            const noFilterInput = wrapper.find('input#no-filter');
+            const noFilterInput = wrapper.find(`input#no-filter_${_uid}`);
             
             noFilterInput.trigger('change');
             expect(spy).to.have.been.called.with.exactly('no-filter', defaultFilterFunc);
@@ -374,18 +378,19 @@ describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () =>
     });
 
     describe('label', () => {
-      let labels;
+      let labels, uid;
       beforeEach(() => {
-        labels = wrapper.findAll('label:not([for="no-filter"])');
+        uid = wrapper.vm._uid;
+        labels = wrapper.findAll(`label:not([for="no-filter_${uid}"])`);
       });
 
       it('is rendered for each element in this.filters', () => {
         expect(labels.length).to.equal(wrapper.vm.filters.length);
       });
 
-      it('has for attribute that equals `chart-filter-` + its rendering index', () => {
+      it('has for attribute that equals `chart-filter-` + uid + _(its rendering index)', () => {
         labels.forEach((label, index) => {
-          expect(label.attributes().for).to.equal(`chart-filter-${index}`);
+          expect(label.attributes().for).to.equal(`chart-filter-${uid}_${index}`);
         });
       });
 
@@ -403,25 +408,36 @@ describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () =>
       });
     });
 
-    describe('input#no-filter', () => {
+    describe('input#no-filter_uid', () => {
       it('is always rendered', () => {
-        expect(wrapper.contains('input[type="radio"]#no-filter')).to.equal(true);
+        const uid = wrapper.vm._uid;
+        expect(wrapper.contains(`input[type="radio"]#no-filter_${uid}`)).to.equal(true);
       });
 
       it('has checked attribute when defaultFilter.name is falsy', () => {
         // stub defaultFilter computed property
-        const wrapper = shallowMount(OvervueChartFilter, {
+        // @@@@@@@@
+        const wrapper2 = shallowMount(OvervueChartFilter, {
+          propsData: {
+            filters: [
+              { name: 'filter1', function: () => true },
+              { name: 'filter2', function: () => true },
+              { name: 'filter3', function: () => true, default: true },
+            ]
+          },
           computed: {
             defaultFilter: () => false
           }
         });
-        const noFilterInput = wrapper.find('input[type="radio"]#no-filter');
+        const uid = wrapper.vm._uid;
+        const noFilterInput = wrapper.find(`input[type="radio"]#no-filter_${uid}`);
         expect(noFilterInput.is(':checked')).to.equal(true);
       });
 
       describe('on @change', () => {
         it('calls emitActiveFilter() with this.defaultFilterFunc attribute', () => {
-          const noFilterInput = wrapper.find('input[type="radio"]#no-filter');
+          const uid = wrapper.vm._uid;
+          const noFilterInput = wrapper.find(`input[type="radio"]#no-filter_${uid}`);
           const spy = chai.spy.on(wrapper.vm, 'emitActiveFilter');
           noFilterInput.trigger('change');
           expect(spy).to.have.been.called.once.with.exactly(wrapper.vm.defaultFilterFunc);

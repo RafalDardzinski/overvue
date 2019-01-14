@@ -1,5 +1,5 @@
 <template>
-  <div class="overvue-chart">
+  <div class="overvue-chart" :id="chartType">
     <overvue-loading-indicator v-if="!dataFetched"></overvue-loading-indicator>
     <canvas class="overvue-chart-canvas"
     v-show="dataFetched"
@@ -26,7 +26,7 @@ export default {
       type: String,
       required: true,
       // apply only implemented chart types
-      validator: (value) => ['bar', 'line'].includes(value.toLowerCase())
+      validator: (value) => ['bar', 'line', 'pie', 'doughnut'].includes(value.toLowerCase())
     },
     datasets: Array,
     labels: Array,

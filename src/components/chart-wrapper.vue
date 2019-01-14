@@ -1,5 +1,5 @@
 <template>
-  <div class="chart-wrapper">
+  <div class="chart-wrapper" id="type">
     <header :class="{compact: compactMode}">
       <h3 v-if="title">{{title}}</h3>
       <div class="options">

@@ -58,6 +58,22 @@ const config = {
         mode: 'index',
         intersect: false,
       }
+    },
+    doughnut: {
+      title: {
+        display: false
+      },
+      legend: {
+        display: true
+      },
+    },
+    pie: {
+      title: {
+        display: false
+      },
+      legend: {
+        display: true
+      },
     }
   },
   datasets: {
@@ -80,20 +96,58 @@ const config = {
     },
     line: {
       backgroundColors: [
-        colors.primary,
-        colors.info,
-        colors.success,
-        colors.lightAccent,
-        colors.warning
+        colors.chartPrimary,
+        colors.chartInfo,
+        colors.chartSuccess,
+        colors.chartLightAccent,
+        colors.chartWarning,
+        colors.chartDanger,
       ],
       borderColors: [
-        colors.primary,
-        colors.info,
-        colors.success,
-        colors.lightAccent,
-        colors.warning
+        colors.chartPrimary,
+        colors.chartInfo,
+        colors.chartSuccess,
+        colors.chartLightAccent,
+        colors.chartWarning,
+        colors.chartDanger,
       ],
       borderWidth: 3
+    },
+    doughnut: {
+      backgroundColors: [
+        colors.chartPrimary,
+        colors.chartInfo,
+        colors.chartSuccess,
+        colors.chartLightAccent,
+        colors.chartWarning,
+        colors.chartDanger,
+        colors.darkAccent,
+        colors.chartMono1,
+        colors.chartMono2,
+        colors.chartMono3,
+        colors.chartMono4,
+        colors.chartMono5,
+      ],
+      borderColors: colors.lightShades,
+      borderWidth: 1
+    },
+    pie: {
+      backgroundColors: [
+        colors.chartPrimary,
+        colors.chartInfo,
+        colors.chartSuccess,
+        colors.chartLightAccent,
+        colors.chartWarning,
+        colors.chartDanger,
+        colors.darkAccent,
+        colors.chartMono1,
+        colors.chartMono2,
+        colors.chartMono3,
+        colors.chartMono4,
+        colors.chartMono5,
+      ],
+      borderColors: colors.lightShades,
+      borderWidth: 1
     }
   }
 };

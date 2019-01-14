@@ -2,7 +2,7 @@
   <div class="chart-filter">
     <button
     :class="['button-link', 'context-menu-toggler', 
-    {active: contextMenuVisible}]" 
+    { active: contextMenuVisible }]" 
     v-show="compact" 
     @click="contextMenuVisible = !contextMenuVisible">
       <font-awesome-icon icon="filter"></font-awesome-icon>
@@ -14,20 +14,20 @@
       <template v-for="(filter, index) in filters">
         <input type="radio" 
         name="active-filter" 
-        :id="`chart-filter-` + index" 
+        :id="`chart-filter-` + id + '_' + index" 
         :key="'input-' + index"
         @change="handleFilterChange(filter.name, filter.function)"
         :checked="activeFilter === filter.name"
         />
-        <label :class="['button-primary', 'filter-button']" :for="`chart-filter-` + index" :key="'label-' + index">{{filter.name}}</label>
+        <label :class="['button-primary', 'filter-button']" :for="`chart-filter-` + id + '_' + index" :key="'label-' + index">{{filter.name}}</label>
       </template>
       <input type="radio" 
       name="active-filter" 
-      id="no-filter" 
+      :id="'no-filter_' + id" 
       @change="handleFilterChange('no-filter', defaultFilterFunc)"
       :checked="activeFilter === 'no-filter'"
       />
-      <label class="button-primary filter-button" for="no-filter">{{unfilteredInputName}}</label>
+      <label class="button-primary filter-button" :for="'no-filter_' + id">{{unfilteredInputName}}</label>
     </form>
   </div>
 </template>
@@ -53,7 +53,8 @@ export default {
   data() {
     return {
       contextMenuVisible: false,
-      activeFilter: ''
+      activeFilter: '',
+      id: null
     }
   },
   computed: {
@@ -78,6 +79,9 @@ export default {
     this.activeFilter = this.defaultFilter.name || 'no-filter'
     this.emitActiveFilter(this.defaultFilter.function)
   },
+  mounted() {
+    this.id = this._uid;
+  }
 }
 </script>
 <style lang="scss" scoped>

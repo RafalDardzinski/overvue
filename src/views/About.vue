@@ -1,22 +1,55 @@
 <template>
   <div class="about">
     <div class="charts">
-      <overvue-chart-wrapper
-      :getData="getPosts"
-      :organizeData="organizeData"
-      type="line"
-      title="Posts per user"
-      :filters="[
-        { name: 'id < 8', function: idLessThan8 },
-        { name: 'id < 5', function: idLessThan5 }
-      ]"
-      ></overvue-chart-wrapper>
-      <overvue-chart-wrapper
-      :getData="getPosts"
-      :organizeData="organizeData"
-      type="bar"
-      title="Posts per user"
-      ></overvue-chart-wrapper>
+      <div>
+        <overvue-chart-wrapper
+        :getData="getPosts"
+        :organizeData="organizeData"
+        type="line"
+        title="Posts per user"
+        :filters="[
+          { name: 'id < 8', function: idLessThan8 },
+          { name: 'id < 5', function: idLessThan5 }
+        ]"
+        ></overvue-chart-wrapper>
+      </div>
+      <div>
+        <overvue-chart-wrapper
+        :getData="getPosts"
+        :organizeData="organizeData"
+        type="bar"
+        title="Posts per user"
+        :filters="[
+          { name: 'id < 8', function: idLessThan8 },
+          { name: 'id < 5', function: idLessThan5 }
+        ]"
+        ></overvue-chart-wrapper>
+      </div>
+      <div>
+        <overvue-chart-wrapper
+        :getData="getPosts"
+        :organizeData="organizeData"
+        type="pie"
+        title="Posts per user"
+        :filters="[
+          { name: 'id < 82', function: idLessThan82 },
+          { name: 'id < 52', function: idLessThan52 }
+        ]"
+        ></overvue-chart-wrapper>
+      </div>
+      <div>
+        <overvue-chart-wrapper
+        :getData="getPosts"
+        :organizeData="organizeData"
+        type="doughnut"
+        title="Posts per user"
+        :filters="[
+          { name: 'id < 8', function: idLessThan8 },
+          { name: 'id < 5', function: idLessThan5 }
+        ]"
+        ></overvue-chart-wrapper>
+      </div>
+
     </div>
   </div>
 </template>
@@ -42,7 +75,7 @@ export default {
     },
     getPosts() {
       return axios.get('https://jsonplaceholder.typicode.com/comments')
-        .then(({data}) => data);
+        .then(({data}) => data.filter(r => r.postId <= 12));
     },
     organizeData(data) {
       data.sort((a, b) => a.postId - b.postId)
@@ -65,6 +98,12 @@ export default {
     },
     idLessThan5(data) {
       return data.filter(r => r.postId < 5);
+    },
+    idLessThan82(data) {
+      return data.filter(r => r.postId < 8);
+    },
+    idLessThan52(data) {
+      return data.filter(r => r.postId < 5);
     }
   },
   mounted() {
@@ -74,10 +113,12 @@ export default {
 </script>
 <style lang="scss" scoped>
 .charts {
-  max-width: 600px;
+  display: flex;
+  flex-wrap: wrap;
 
   &>* {
-    flex: 1;
+    flex-shrink: 1;
+    flex-basis: 40%;
   }
 }
 </style>
