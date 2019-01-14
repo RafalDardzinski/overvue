@@ -1,7 +1,7 @@
 import chai from 'chai';
 import spies from 'chai-spies';
 import { expect } from 'chai';
-import { shallowMount, WrapperArray, createLocalVue } from '@vue/test-utils';
+import { shallowMount, WrapperArray, createLocalVue, mount } from '@vue/test-utils';
 import OvervueChartFilter from '@/components/chart/chart-filter.vue';
 import FontAwesomeIcon from '@/config/font-awesome';
 
@@ -409,30 +409,36 @@ describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () =>
     });
 
     describe('input#no-filter_uid', () => {
-      it('is always rendered', () => {
-        const uid = wrapper.vm._uid;
-        expect(wrapper.contains(`input[type="radio"]#no-filter_${uid}`)).to.equal(true);
+      describe('when the element is mounted', () => {
+        it('is rendered', () => {
+          const w = shallowMount(OvervueChartFilter);
+          const uid = w.vm._uid;
+          console.log(w);
+          console.log(uid);
+          const input = w.find('input');
+          console.log(input.attributes('id'));
+          expect(wrapper.contains(`input[type="radio"]#no-filter_${uid}`)).to.equal(true);
+        });
       });
 
-      it('has checked attribute when defaultFilter.name is falsy', () => {
-        // stub defaultFilter computed property
-        // @@@@@@@@
-        const wrapper2 = shallowMount(OvervueChartFilter, {
-          propsData: {
-            filters: [
-              { name: 'filter1', function: () => true },
-              { name: 'filter2', function: () => true },
-              { name: 'filter3', function: () => true, default: true },
-            ]
-          },
-          computed: {
-            defaultFilter: () => false
-          }
-        });
-        const uid = wrapper.vm._uid;
-        const noFilterInput = wrapper.find(`input[type="radio"]#no-filter_${uid}`);
-        expect(noFilterInput.is(':checked')).to.equal(true);
-      });
+
+
+      // it('has checked attribute when defaultFilter.name is falsy', () => {
+      //   // stub defaultFilter computed property
+      //   // @@@@@@@@
+      //   const wrapper = shallowMount(OvervueChartFilter, {
+      //     computed: {
+      //       defaultFilter: () => { return {}; }
+      //     },
+      //     propsData: {
+      //       compact: false
+      //     }
+      //   });
+
+      //   const uid = wrapper.vm._uid;
+      //   const noFilterInput = wrapper.find(`input#no-filter_${uid}`);
+      //   expect(noFilterInput.is(':checked')).to.equal(true);
+      // });
 
       describe('on @change', () => {
         it('calls emitActiveFilter() with this.defaultFilterFunc attribute', () => {
@@ -445,17 +451,19 @@ describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () =>
       });
     });
 
-    describe('label[for="no-filter"]', () => {
+    describe('label[for="no-filter_uid"]', () => {
       it('is always rendered', () => {
-        expect(wrapper.contains('label[for="no-filter"]')).to.equal(true);
+        const uid = wrapper.vm._uid;
+        expect(wrapper.contains(`label[for="no-filter_${uid}"]`)).to.equal(true);
       });
       
       it('has text content that equals unfilteredInputName property', () => {
+        const uid = wrapper.vm._uid;
         const unfilteredInputName = 'SomeText';
         wrapper.setProps({
           unfilteredInputName
         });
-        expect(wrapper.find(`label[for="no-filter"]`).text()).to.equal(unfilteredInputName);
+        expect(wrapper.find(`label[for="no-filter_${uid}"]`).text()).to.equal(unfilteredInputName);
       });
     });
   });

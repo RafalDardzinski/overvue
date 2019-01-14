@@ -32,7 +32,12 @@
   </div>
 </template>
 <script>
+import FontAwesomeIcon from '@/config/font-awesome';
+
 export default {
+  components: {
+    'font-awesome-icon': FontAwesomeIcon
+  },
   props: {
     filters: {
       type: Array,
@@ -54,7 +59,7 @@ export default {
     return {
       contextMenuVisible: false,
       activeFilter: '',
-      id: null
+      id: this._uid
     }
   },
   computed: {

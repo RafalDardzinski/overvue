@@ -49,6 +49,11 @@
         ]"
         ></overvue-chart-wrapper>
       </div>
+      <div>
+        <overvue-chart-filter
+        
+        />
+      </div>
 
     </div>
   </div>
@@ -57,12 +62,14 @@
 import OvervueChart from '@/components/chart/chart.vue';
 import OvervueErrorBoundary from '@/components/error-boundary.vue';
 import OvervueChartWrapper from '@/components/chart-wrapper';
+import OvervueChartFilter from '@/components/chart/chart-filter.vue';
 import axios from 'axios';
 export default {
   components: {
     'overvue-chart': OvervueChart,
     'overvue-chart-wrapper': OvervueChartWrapper,
-    'overvue-error-boundary': OvervueErrorBoundary
+    'overvue-error-boundary': OvervueErrorBoundary,
+    'overvue-chart-filter': OvervueChartFilter,
   },
   data() {
     return {
