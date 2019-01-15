@@ -49,12 +49,6 @@
         ]"
         ></overvue-chart-wrapper>
       </div>
-      <div>
-        <overvue-chart-filter
-        
-        />
-      </div>
-
     </div>
   </div>
 </template>

@@ -100,7 +100,6 @@ describe('App.vue (@/App.vue)', () => {
 
           App.methods.handleResize.call(localThis)
             .then(result => {
-              console.log(localThis.resizeTimeout);
               expect(commitAppOffsetWidthSpy).to.have.been.called.with(localThis.getAppOffsetWidth());
               done();
             })

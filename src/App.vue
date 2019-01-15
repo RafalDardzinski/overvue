@@ -4,8 +4,6 @@
   </div>
 </template>
 <script>
-import Layout from '@/layouts/fixed-sidebar.vue';
-// import OvervueNavigationWrapper from '@/components/navigation-wrapper';
 export default {
   components: {
     'overvue-layout': Layout,
