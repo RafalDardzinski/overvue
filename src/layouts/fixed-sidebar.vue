@@ -7,7 +7,7 @@
       <div class="view" :style="[ { 'margin-left': sidebarWidth + 'px' } ]">
         <router-view/>
           <footer>
-            I'm a footer
+            <slot name="footer"></slot>
           </footer>
       </div>
     </section>

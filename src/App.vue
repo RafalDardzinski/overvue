@@ -1,9 +1,12 @@
 <template>
   <div id="app" ref="app">
-    <overvue-layout />
+    <overvue-layout>
+      <p slot="footer">Created by: Rafał Dardziński &copy;{{ new Date().getFullYear() }}</p>
+    </overvue-layout>
   </div>
 </template>
 <script>
+import Layout from '@/config/layout.js';
 export default {
   components: {
     'overvue-layout': Layout,
