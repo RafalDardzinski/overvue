@@ -9,12 +9,11 @@ class PieChart extends Chart {
 
   static styleDatasets(datasets) {
     const styleConfig = config.datasets[type] || config.datasets.default;
-    return datasets.map((dataset, index) => {
-      dataset.backgroundColor = styleConfig.backgroundColors;
-      dataset.borderColor = styleConfig.borderColors;
-      dataset.borderWidth = styleConfig.borderWidth;
-      return dataset;
-    });
+    return datasets.map(dataset => Object.assign({}, dataset, {
+      backgroundColor: styleConfig.backgroundColors,
+      borderColor: styleConfig.borderColors,
+      borderWidth: styleConfig.borderWidth,
+    }));
   }
 }
 
