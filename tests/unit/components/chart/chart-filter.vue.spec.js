@@ -409,36 +409,24 @@ describe('OvervueChartFilter (@/components/chart/chart/chart-filter.vue)', () =>
     });
 
     describe('input#no-filter_uid', () => {
-      describe('when the element is mounted', () => {
+      describe('when component is mounted is mounted', () => {
         it('is rendered', () => {
-          const w = shallowMount(OvervueChartFilter);
-          const uid = w.vm._uid;
-          console.log(w);
-          console.log(uid);
-          const input = w.find('input');
-          console.log(input.attributes('id'));
+          const wrapper = shallowMount(OvervueChartFilter);
+          const uid = wrapper.vm._uid;
           expect(wrapper.contains(`input[type="radio"]#no-filter_${uid}`)).to.equal(true);
         });
       });
 
-
-
-      // it('has checked attribute when defaultFilter.name is falsy', () => {
-      //   // stub defaultFilter computed property
-      //   // @@@@@@@@
-      //   const wrapper = shallowMount(OvervueChartFilter, {
-      //     computed: {
-      //       defaultFilter: () => { return {}; }
-      //     },
-      //     propsData: {
-      //       compact: false
-      //     }
-      //   });
-
-      //   const uid = wrapper.vm._uid;
-      //   const noFilterInput = wrapper.find(`input#no-filter_${uid}`);
-      //   expect(noFilterInput.is(':checked')).to.equal(true);
-      // });
+      describe('when data.activeFilter === "no-filter"', () => {
+        it('it has checked attribute', () => {
+          wrapper.setData({
+            activeFilter: 'no-filter'
+          });
+          const uid = wrapper.vm._uid;
+          const noFilterInput = wrapper.find(`input#no-filter_${uid}`);
+          expect(noFilterInput.element.checked).to.be.true;
+        });
+      });
 
       describe('on @change', () => {
         it('calls emitActiveFilter() with this.defaultFilterFunc attribute', () => {
