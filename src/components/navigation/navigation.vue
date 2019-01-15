@@ -56,6 +56,7 @@ a {
   text-decoration: none;
   padding: .5rem;
   display: block;
+  outline: 0;
 }
 
 .home {
