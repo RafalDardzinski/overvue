@@ -72,4 +72,11 @@ describe('encodeParameters(parameters) (@/data-access-layer/utils/encode-paramet
       expect(encodeParameters({})).to.be.a('string').with.lengthOf(0);
     });
   });
+
+  describe('when parameter is undefined', () => {
+    it('does not include the parameter in the result string', () => {
+      params.name = undefined;
+      expect(encodeParameters(params)).to.not.include('name');
+    });
+  });
 });
