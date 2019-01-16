@@ -66,7 +66,6 @@ export default {
   },
   computed: {
     filteredData() {
-      if (!this.chartData.length) return [];
       return this.activeFilter(this.chartData);
     },
     organizedData() {
@@ -89,9 +88,6 @@ export default {
     }
   },
   methods: {
-    init() {
-      return 
-    },
     setActiveFilter(func) {
       this.activeFilter = func;
     },
@@ -104,16 +100,14 @@ export default {
     }
   },
   created() {
-      this.getData()
-        .then(data => {
-          this.chartData = data;
-          this.dataFetched = true;
-          return Promise.resolve();
-        })
-      .catch(error => {
+    this.getData()
+      .then(data => {
+        this.chartData = data;
+        this.dataFetched = true;
+      }).catch(error => {
+        this.chartData = {};
         this.setDataFetchedError(error);
-        throw new Error(`Could not initialize ${this.title || 'chart'}.\n${error}`);
-      })
+      });
   },
   mounted() {
     this.wrapperWidth = this.calculateWrapperWidth();
