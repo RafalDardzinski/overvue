@@ -128,12 +128,12 @@ export default {
 }
 
 header {
-  padding: 0 .5rem;
+  padding: 0 .0rem;
   display: flex;
   box-sizing: border-box;
   align-items: center;
 
-  h3 {
+  h4 {
     flex: 1.5;
   }
 
