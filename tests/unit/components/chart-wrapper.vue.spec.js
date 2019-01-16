@@ -33,36 +33,6 @@ const mountChartWrapper = (mountFunc = shallowMount) => mountFunc(OvervueChartWr
 
 describe('OvervueChartWrapper (@/components/chart-wrapper.vue)', () => {
   describe('methods', () => {
-    describe('init()', () => {
-      it('calls props.getData()', () => {
-        const wrapper = mountChartWrapper();
-        const spy = chai.spy.on(wrapper.vm, 'getData');
-        wrapper.vm.init.call(wrapper.vm);
-        expect(spy).to.have.been.called();
-      });
-
-      describe('after successfully obtaining data from props.getData()', () => {
-        let data, wrapper;
-        beforeEach(done => {
-          wrapper = mountChartWrapper();
-          wrapper.vm.getData()
-            .then(obtainedData => {
-              data = obtainedData;
-              return wrapper.vm.init.call(wrapper.vm);
-            })
-            .then(done);
-        });
-        
-        it('assigns data to this.chartData', () => {
-          expect(wrapper.vm.chartData).to.deep.equal(data);
-        });
-
-        it('sets this.dataFetched to true', () => {
-          expect(wrapper.vm.dataFetched).to.equal(true);
-        });
-      });
-    });
-
     describe('setActiveFilter(func)', () => {
       it('sets this.activeFilter to func argument', () => {
         const wrapper = mountChartWrapper();
@@ -111,30 +81,15 @@ describe('OvervueChartWrapper (@/components/chart-wrapper.vue)', () => {
       const { filteredData } = OvervueChartWrapper.computed;
       const activeFilterMock = data => true;
 
-      describe('when this.chartData.length > 0', () => {
-        it('returns this.activeFilter(this.chartData)', () => {
-          const localThis = {
-            chartData: [1, 2, 3],
-            activeFilter: activeFilterMock
-          };
-          const spy = chai.spy.on(localThis, 'activeFilter');
-          
-          expect(filteredData.call(localThis)).to.equal(activeFilterMock(localThis.chartData));
-          expect(spy).to.have.been.called.once.with(localThis.chartData);
-        });
-      });
-
-      describe('when !!this.chartData.length equals false', () => {
-        it('returns empty array', () => {
-          const localThis = {
-            chartData: [],
-            activeFilter: activeFilterMock
-          };
-          const spy = chai.spy.on(localThis, 'activeFilter');
-          
-          expect(filteredData.call(localThis)).to.be.an('array').with.lengthOf(0);
-          expect(spy).to.not.have.been.called();
-        });
+      it('returns this.activeFilter(this.chartData)', () => {
+        const localThis = {
+          chartData: [1, 2, 3],
+          activeFilter: activeFilterMock
+        };
+        const spy = chai.spy.on(localThis, 'activeFilter');
+        
+        expect(filteredData.call(localThis)).to.equal(activeFilterMock(localThis.chartData));
+        expect(spy).to.have.been.called.once.with(localThis.chartData);
       });
     });
 

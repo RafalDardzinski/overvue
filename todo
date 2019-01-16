@@ -1,3 +1,4 @@
-add: navigation-wrapper unit tests
 add: responsive toggle button for navigation
 refactor styles and code for navigation, navigation-wrapper and fixed-sidbar layout
+add: unit tests for data-access-layer/utils/request
+finish the Dashboard
