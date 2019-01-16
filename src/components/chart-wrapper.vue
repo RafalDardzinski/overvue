@@ -22,7 +22,7 @@
       ></overvue-chart>
     </div>
     <div v-else>
-      Could not obtain data from the server.
+      Could not obtain data from the server. {{dataFetchedError.message}}
     </div>
   </div>
 </template>
@@ -90,12 +90,7 @@ export default {
   },
   methods: {
     init() {
-      return this.getData()
-        .then(data => {
-          this.chartData = data;
-          this.dataFetched = true;
-          return Promise.resolve();
-        })
+      return 
     },
     setActiveFilter(func) {
       this.activeFilter = func;
@@ -109,7 +104,12 @@ export default {
     }
   },
   created() {
-    this.init()
+      this.getData()
+        .then(data => {
+          this.chartData = data;
+          this.dataFetched = true;
+          return Promise.resolve();
+        })
       .catch(error => {
         this.setDataFetchedError(error);
         throw new Error(`Could not initialize ${this.title || 'chart'}.\n${error}`);

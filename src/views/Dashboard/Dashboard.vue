@@ -1,6 +1,7 @@
 <template>
   <div class="overvue-view" id="dashboard">
     <div class="charts">
+      <close-asteroids-per-day></close-asteroids-per-day>
       <div>
         <overvue-chart-wrapper
         :getData="getPosts"
@@ -53,6 +54,7 @@
   </div>
 </template>
 <script>
+import CloseAsteroidsPerDay from './close-asteroids-per-day.vue';
 import OvervueChart from '@/components/chart/chart.vue';
 import OvervueErrorBoundary from '@/components/error-boundary.vue';
 import OvervueChartWrapper from '@/components/chart-wrapper';
@@ -64,6 +66,7 @@ export default {
     'overvue-chart-wrapper': OvervueChartWrapper,
     'overvue-error-boundary': OvervueErrorBoundary,
     'overvue-chart-filter': OvervueChartFilter,
+    'close-asteroids-per-day': CloseAsteroidsPerDay,
   },
   data() {
     return {
