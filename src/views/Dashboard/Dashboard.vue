@@ -1,8 +1,8 @@
 <template>
   <div class="overvue-view" id="dashboard">
     <div class="charts">
-      <close-asteroids-per-day></close-asteroids-per-day>
-      <div>
+      <near-earth-objects></near-earth-objects>
+      <!-- <div>
         <overvue-chart-wrapper
         :getData="getPosts"
         :organizeData="organizeData"
@@ -13,60 +13,23 @@
           { name: 'id < 5', function: idLessThan5 }
         ]"
         ></overvue-chart-wrapper>
-      </div>
-      <div>
-        <overvue-chart-wrapper
-        :getData="getPosts"
-        :organizeData="organizeData"
-        type="bar"
-        title="Posts per user"
-        :filters="[
-          { name: 'id < 8', function: idLessThan8 },
-          { name: 'id < 5', function: idLessThan5 }
-        ]"
-        ></overvue-chart-wrapper>
-      </div>
-      <div>
-        <overvue-chart-wrapper
-        :getData="getPosts"
-        :organizeData="organizeData"
-        type="pie"
-        title="Posts per user"
-        :filters="[
-          { name: 'id < 82', function: idLessThan82 },
-          { name: 'id < 52', function: idLessThan52 }
-        ]"
-        ></overvue-chart-wrapper>
-      </div>
-      <div>
-        <overvue-chart-wrapper
-        :getData="getPosts"
-        :organizeData="organizeData"
-        type="doughnut"
-        title="Posts per user"
-        :filters="[
-          { name: 'id < 8', function: idLessThan8 },
-          { name: 'id < 5', function: idLessThan5 }
-        ]"
-        ></overvue-chart-wrapper>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
 <script>
-import CloseAsteroidsPerDay from './close-asteroids-per-day.vue';
+import NearEarthObjects from './near-earth-objects.vue';
 import OvervueChart from '@/components/chart/chart.vue';
 import OvervueErrorBoundary from '@/components/error-boundary.vue';
 import OvervueChartWrapper from '@/components/chart-wrapper';
 import OvervueChartFilter from '@/components/chart/chart-filter.vue';
-import axios from 'axios';
 export default {
   components: {
     'overvue-chart': OvervueChart,
     'overvue-chart-wrapper': OvervueChartWrapper,
     'overvue-error-boundary': OvervueErrorBoundary,
     'overvue-chart-filter': OvervueChartFilter,
-    'close-asteroids-per-day': CloseAsteroidsPerDay,
+    'near-earth-objects': NearEarthObjects,
   },
   data() {
     return {
@@ -77,41 +40,40 @@ export default {
     setDataLoaded() {
       this.dataLoaded = true;
     },
-    getPosts() {
-      return axios.get('https://jsonplaceholder.typicode.com/comments')
-        .then(({data}) => data.filter(r => r.postId <= 12));
-    },
-    organizeData(data) {
-      data.sort((a, b) => a.postId - b.postId)
-      const labels = data.reduce((uniques, current) => {
-        if (!uniques.includes(current.postId) && current.postId)
-          uniques.push(current.postId);
-        return uniques;
-      }, []);
-      const datasets = [{
-        label: 'Number of posts',
-        data: labels.map(postId => data.filter(r => r.postId === postId).length)
-      }];
-      return {
-        datasets,
-        labels: labels.map(postId => `User ${postId}`)
-      }
-    },
-    idLessThan8(data) {
-      return data.filter(r => r.postId < 8);
-    },
-    idLessThan5(data) {
-      return data.filter(r => r.postId < 5);
-    },
-    idLessThan82(data) {
-      return data.filter(r => r.postId < 8);
-    },
-    idLessThan52(data) {
-      return data.filter(r => r.postId < 5);
-    }
+    // getPosts() {
+    //   return axios.get('https://jsonplaceholder.typicode.com/comments')
+    //     .then(({data}) => data.filter(r => r.postId <= 12));
+    // },
+    // organizeData(data) {
+    //   data.sort((a, b) => a.postId - b.postId)
+    //   const labels = data.reduce((uniques, current) => {
+    //     if (!uniques.includes(current.postId) && current.postId)
+    //       uniques.push(current.postId);
+    //     return uniques;
+    //   }, []);
+    //   const datasets = [{
+    //     label: 'Number of posts',
+    //     data: labels.map(postId => data.filter(r => r.postId === postId).length)
+    //   }];
+    //   return {
+    //     datasets,
+    //     labels: labels.map(postId => `User ${postId}`)
+    //   }
+    // },
+    // idLessThan8(data) {
+    //   return data.filter(r => r.postId < 8);
+    // },
+    // idLessThan5(data) {
+    //   return data.filter(r => r.postId < 5);
+    // },
+    // idLessThan82(data) {
+    //   return data.filter(r => r.postId < 8);
+    // },
+    // idLessThan52(data) {
+    //   return data.filter(r => r.postId < 5);
+    // }
   },
   mounted() {
-    setTimeout(this.setDataLoaded, 2000);
   }
 }
 </script>
@@ -121,8 +83,8 @@ export default {
   flex-wrap: wrap;
 
   &>* {
-    flex-shrink: 1;
-    flex-basis: 40%;
+    flex: 1;
+    // flex-basis: 40%;
   }
 }
 </style>
